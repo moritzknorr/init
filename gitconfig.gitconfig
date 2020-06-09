@@ -1,0 +1,8 @@
+[user]
+	name = Moritz Knorr
+	email = mail@moritzknorr.de
+	username = moritzknorr
+[core]
+	editor = vim
+[web]
+	browser = google-chrome
