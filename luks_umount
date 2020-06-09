@@ -1,0 +1,15 @@
+#!/bin/bash
+
+LOOP=$(sudo losetup -l | grep luks | cut -d ' ' -f 1)
+
+if [ -z $1 ]; then
+  echo 'Name is not set'
+  exit 1
+fi
+NAME=$1
+
+MOUNTPOINT=$(df | tail -n 1 | awk '{print $NF}')
+
+sudo umount ${MOUNTPOINT}
+sudo cryptsetup luksClose ${NAME}
+sudo losetup -d ${LOOP} &> /dev/null

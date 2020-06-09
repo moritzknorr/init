@@ -1,0 +1,42 @@
+#!/bin/bash
+
+if [ -z $1 ]; then
+  echo 'Path to container is not set'
+  exit 1
+fi
+FILE=$1
+
+if [ -z $2 ]; then
+  echo 'Name is not set, using default: CRYPT'
+  NAME="CRYPT"
+else
+  NAME=$2
+fi
+
+if [ -z $3 ]; then
+  echo "Mountpoint is not set, using default: /media/${NAME}"
+  MOUNTPOINT="/media/${NAME}"
+else
+  MOUNTPOINT=$3
+fi
+
+# Check if '/dev/' in $FILE
+if [[ "${FILE}" == *"/dev/"* ]]; then
+  echo 'Mount Drive'
+  LOOP=${FILE}
+else
+  echo 'Mount File'
+  LOOP=$(sudo losetup -f)
+  sudo losetup ${LOOP} ${FILE}
+fi
+
+# Check if mount target exists
+if [ ! -d "${MOUNTPOINT}/" ]; then
+  echo 'Mount target does not exist, will be created'
+  sudo mkdir "${MOUNTPOINT}/"
+fi
+
+sudo cryptsetup luksOpen ${LOOP} ${NAME}
+sudo mount /dev/mapper/${NAME} ${MOUNTPOINT}
+
+exit 0

@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if [ -z $1 ]; then
+  echo 'Profile not set [private/work]'
+  exit 1
+fi
+
+cp bashrc.bashrc ~/.bashrc
+cp vimrc.vimrc ~/.vimrc
+
+if [[ "$1" == "private" ]]; then
+  cp ~/credentials/gitconfig-private.gitconfig ~/.gitconfig
+fi
+
+if [[ "$1" == "work" ]]; then
+  cp ~/credentials/gitconfig-work.gitconfig ~/.gitconfig
+fi
+
+cp ~/credentials/git-credentials.git-credentials ~/.git-credentials
+
+exit 0
