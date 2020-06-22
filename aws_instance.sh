@@ -33,7 +33,7 @@ if [ "${PROFILE}" = "work" ]; then
   # get IDs for tags
   NETWORKINTERFACEID=$(echo "${INSTANCE}" | grep NetworkInterfaceId | grep -oP "(eni-[a-z0-9]*)")
   TEMPVOLUMEID=$(aws --profile ${PROFILE} --region eu-central-1 ec2 describe-instances --instance-ids ${INSTANCEID} | grep VolumeId | grep -oP "(vol-[a-z0-9]*)")
-  aws --profile ${PROFILE} --region eu-central-1 ec2 create-tags --resources ${INSTANCEID} ${TEMPVOLUMEID} ${NETWORKINTERFACEID} --cli-input-json file://tags.json
+  aws --profile ${PROFILE} --region eu-central-1 ec2 create-tags --resources ${INSTANCEID} ${TEMPVOLUMEID} ${NETWORKINTERFACEID} --cli-input-json file:///home/knorr/aws_tags_work.json
 fi
 
 # Wait for instance
