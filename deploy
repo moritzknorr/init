@@ -2,6 +2,6 @@
 
 cp bashrc.bashrc ~/.bashrc
 cp vimrc.vimrc ~/.vimrc
-cp ~/credentials/gitconfig.gitconfig ~/.gitconfig
+cp gitconfig.gitconfig ~/.gitconfig
 
 exit 0
