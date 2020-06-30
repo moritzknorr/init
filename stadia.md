@@ -9,6 +9,7 @@ Go to `chrome:://flags`
 
 Desktop File:
 Place in `/usr/share/application/stadia.desktop`
+Place in for xubuntu `/usr/share/application/stadias.desktop`
 
 ```
 [Desktop Entry]
