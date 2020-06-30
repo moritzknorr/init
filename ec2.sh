@@ -46,8 +46,5 @@ apt -yy install awscli unzip parallel curl
 # install docker
 ./docker.sh
 
-# User knorr docker ermöglichen
-usermod -a -G docker knorr
-
 # Software Ready Datei anlegen
 touch /home/knorr/ready_software
