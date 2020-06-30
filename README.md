@@ -1,5 +1,7 @@
 # REPO IS PUBLIC
 
+only ec2.sh is copied onto host.
+
 ## Install Stadia
 [Link to reddit post](https://www.reddit.com/r/Stadia/comments/e02zj9/stadia_on_ubuntu/)
 
