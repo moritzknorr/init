@@ -180,3 +180,8 @@ export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"; # Make some commands not 
 #export LANG="en_US.UTF-8"; # Language formatting is still important
 #export LC_ALL="en_US.UTF-8"; # byte-wise sorting and force language for those pesky apps
 export MANPAGER="less -X"; # Less is more
+
+# https://unix.stackexchange.com/a/113768
+if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+  exec tmux
+fi
