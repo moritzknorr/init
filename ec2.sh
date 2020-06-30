@@ -38,15 +38,13 @@ touch /home/knorr/ready_user
 # Enable ssh login
 rm /run/nologin
 
-# Docker über Ubuntu-Repo installieren
+# install some software
 apt -yy update
-apt -yy install awscli unzip parallel
-apt -yy remove docker docker-engine docker.io containerd runc
-apt -yy install docker.io
-curl -L "https://github.com/docker/compose/releases/download/1.25.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
-sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+apt -yy install awscli unzip parallel curl
 # python3 -m pip install pandas numpy matplotlib SQLAlchemy virtualenv jupyter
+
+# install docker
+./docker.sh
 
 # User knorr docker ermöglichen
 usermod -a -G docker knorr
