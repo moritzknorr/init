@@ -5,7 +5,7 @@ Install chromium with vaapi
 `sudo snap install --channel=candidate/vaapi chromium`
 
 Enabel override `software rendering list` flag
-Go to `chrome:://flags`
+Go to `chrome://flags`
 
 Desktop File:
 Place in `/usr/share/application/stadia.desktop`
