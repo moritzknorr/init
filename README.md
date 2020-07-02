@@ -1,4 +1,4 @@
-** REPO IS PUBLIC **
+**REPO IS PUBLIC**
 
 # Information
 
