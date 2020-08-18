@@ -182,6 +182,6 @@ export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"; # Make some commands not 
 export MANPAGER="less -X"; # Less is more
 
 # https://unix.stackexchange.com/a/113768
-if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-  exec tmux
-fi
+# if command -v tmux &> /dev/null && [ -n "$PS3" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+#   exec tmux
+# fi
