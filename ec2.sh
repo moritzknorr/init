@@ -38,18 +38,18 @@ touch /home/knorr/ready_user
 # Enable ssh login
 rm /run/nologin
 
-# install some software
 apt -yy update
-apt -yy install awscli unzip parallel curl vim
-# python3 -m pip install pandas numpy matplotlib SQLAlchemy virtualenv jupyter
 
-# Docker über Ubuntu-Repo installieren
-apt -yy update
+# cleanup for fresh docker installation
 apt -yy remove docker docker-engine docker.io containerd runc
-apt -yy install docker.io curl
-curl -L "https://github.com/docker/compose/releases/download/1.25.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
-ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+# install docker-compose via old mechanism
+# curl -L "https://github.com/docker/compose/releases/download/1.25.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+# chmod +x /usr/local/bin/docker-compose
+# ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+
+apt -yy install $(cat init/software.txt)
+
+# adduser to docker group
 usermod -a -G docker knorr
 
 # Software Ready Datei anlegen
