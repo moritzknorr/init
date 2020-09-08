@@ -62,4 +62,5 @@ Categories=Network;Telephony;
 ```
 
 # Backup xfce4
-Create backup: `tar -czvf xfce4.tar.gz .config/xfce4/`
+Create backup: `tar -C .config/ -czvf xfce4.tar.gz xfce4/`
+Extract backup: `rm -rf ~/.config/xfce4/ && tar -xvf xfce4.tar.gz && mv xfce4 ~/.config/ && sudo reboot now`
