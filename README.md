@@ -62,4 +62,4 @@ Categories=Network;Telephony;
 ```
 
 # Backup xfce4
-```tar -czvf xfce4.tar.gz .config/xfce4/
+`tar -czvf xfce4.tar.gz .config/xfce4/`
