@@ -1,1 +1,1 @@
-awscli unzip parallel curl git tmux vim docker.io docker-compose
+awscli unzip parallel curl git tmux vim docker.io docker-compose pass
