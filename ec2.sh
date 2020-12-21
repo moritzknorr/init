@@ -42,12 +42,14 @@ apt -yy update
 
 # cleanup for fresh docker installation
 apt -yy remove docker docker-engine docker.io containerd runc
-# install docker-compose via old mechanism
-# curl -L "https://github.com/docker/compose/releases/download/1.25.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-# chmod +x /usr/local/bin/docker-compose
-# ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
-
 apt -yy install $(cat init/software.txt)
+
+
+# install docker-compose from docker
+# apt version does not support version 3.6
+curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
 # adduser to docker group
 usermod -a -G docker knorr
