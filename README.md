@@ -13,6 +13,14 @@ Place in for xubuntu `/usr/share/application/stadias.desktop`
 ## Install DisplayLink
 [Link to installation](https://www.displaylink.com/downloads/ubuntu)
 
+[Link to Patch to prevent lag, when Laptop-Lid closed](https://displaylink.org/forum/showthread.php?p=90093)
+
+## Barrier Keybinding
+[Link to thread](https://github.com/debauchee/barrier/issues/437)
+```
+setxkbmap -device `xinput list | grep "Virtual core XTEST keyboard" | sed -e 's/.\+=\([0-9]\+\).\+/\1/'` de
+```
+
 ## Install Stadia
 [Link to reddit post](https://www.reddit.com/r/Stadia/comments/e02zj9/stadia_on_ubuntu/)
 
