@@ -13,8 +13,13 @@ Place in for xubuntu `/usr/share/application/stadias.desktop`
 ## Install DisplayLink
 [Link to installation](https://www.displaylink.com/downloads/ubuntu)
 
+[Link to lid closed issue](https://gitlab.freedesktop.org/xorg/xserver/-/issues/1028)
+
 [Link to Patch to prevent lag, when Laptop-Lid closed](https://displaylink.org/forum/showthread.php?p=90093)
 
+[Prevent Patch from being updated 1](https://askubuntu.com/questions/18654/how-to-prevent-updating-of-a-specific-package#:~:text=Go%20to%20Synaptic%20Package%20Manager,and%20will%20not%20be%20updated.)
+
+[Prevent Patch from being updated 2](https://askubuntu.com/questions/1300775/ubuntu-20-04-displaylink-patch-for-xorg)
 ## Barrier Keybinding
 [Link to thread](https://github.com/debauchee/barrier/issues/437)
 ```
