@@ -19,6 +19,9 @@ Place in for xubuntu `/usr/share/application/stadias.desktop`
 
 [Prevent Patch from being updated 1](https://askubuntu.com/questions/18654/how-to-prevent-updating-of-a-specific-package#:~:text=Go%20to%20Synaptic%20Package%20Manager,and%20will%20not%20be%20updated.)
 
+## Disable WiFi when ethernet conneted
+[Link to description](https://askubuntu.com/questions/1271491/disable-wifi-if-lan-is-connected)
+
 [Prevent Patch from being updated 2](https://askubuntu.com/questions/1300775/ubuntu-20-04-displaylink-patch-for-xorg)
 ## Barrier Keybinding
 [Link to thread](https://github.com/debauchee/barrier/issues/437)
