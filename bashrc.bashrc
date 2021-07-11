@@ -185,3 +185,10 @@ export MANPAGER="less -X"; # Less is more
 # if command -v tmux &> /dev/null && [ -n "$PS3" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
 #   exec tmux
 # fi
+EDITOR="/usr/bin/vim"
+
+# https://www.tecmint.com/tips-for-tmux-terminal-sessions/
+if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
+    tmux attach -t default || tmux new -s default
+fi
+
