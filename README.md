@@ -17,7 +17,8 @@ Place in for xubuntu `/usr/share/application/stadias.desktop`
 
 [Link to Patch to prevent lag, when Laptop-Lid closed](https://displaylink.org/forum/showthread.php?p=90093)
 
-[Prevent Patch from being updated 1](https://askubuntu.com/questions/18654/how-to-prevent-updating-of-a-specific-package#:~:text=Go%20to%20Synaptic%20Package%20Manager,and%20will%20not%20be%20updated.)
+[Prevent Patch from being updated 1](https://askubuntu.com/questions/18654/how-to-prevent-updating-of-a-specific-package)
+`sudo apt-mark hold xserver-xorg-core`
 
 ## Disable WiFi when ethernet conneted
 [Link to description](https://askubuntu.com/questions/1271491/disable-wifi-if-lan-is-connected)
