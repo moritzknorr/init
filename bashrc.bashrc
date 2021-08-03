@@ -186,9 +186,3 @@ export MANPAGER="less -X"; # Less is more
 #   exec tmux
 # fi
 EDITOR="/usr/bin/vim"
-
-# https://www.tecmint.com/tips-for-tmux-terminal-sessions/
-if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
-    tmux attach -t default || tmux new -s default
-fi
-
