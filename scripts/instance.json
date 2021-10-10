@@ -12,7 +12,7 @@
         }
     ],
     "KeyName": "moritzknorr",
-    "UserData": "#!/bin/bash -xe\nexec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1 \nwget https://raw.githubusercontent.com/moritzknorr/init/master/ec2.sh \nchmod +x ec2.sh \n./ec2.sh",
+    "UserData": "#!/bin/bash -xe\nexec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1 \nwget https://raw.githubusercontent.com/moritzknorr/init/master/scripts/ec2.sh \nchmod +x ec2.sh \n./ec2.sh",
     "ImageId": "ami-0bdf93799014acdc4",
     "InstanceType": "c5.xlarge",
     "Monitoring": {
