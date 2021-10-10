@@ -1,11 +1,11 @@
 #!/bin/sh
 read -p 'Profile [default]: ' PROFILE
 read -p 'Instance Type [t3.medium]: ' TYPE
-read -p 'Mount Volume [y]: ' MOUNT
+read -p 'Mount Volume [n]: ' MOUNT
 
 TYPE=${TYPE:-t3.medium}
 PROFILE=${PROFILE:-default}
-MOUNT=${MOUNT:-y}
+MOUNT=${MOUNT:-n}
 
 if [ ${PROFILE} = "default" ]; then
   VOLUMEID=vol-0e2c6c00585750b66
