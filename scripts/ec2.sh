@@ -25,7 +25,7 @@ echo 'TZ='Europe/Berlin'; export TZ' >> /home/knorr/.profile
 
 # Instanz um 01:00 Uhr herunterfahren
 crontab -l > cronjobs
-echo "0 1 * * * shutdown now" >> cronjobs
+echo "* * * * * shutdown now" >> cronjobs
 crontab cronjobs
 rm cronjobs
 
