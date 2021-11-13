@@ -3,6 +3,6 @@
 	email = mail@moritzknorr.de
 	username = moritzknorr
 [core]
-	editor = vim
+	editor = vi
 [web]
 	browser = google-chrome
