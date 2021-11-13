@@ -1,11 +1,13 @@
 #!/bin/sh
 read -p 'Profile [default]: ' PROFILE
 read -p 'Instance Type [t3.medium]: ' TYPE
+read -p 'Instance Architecture [x64]: ' ARCHITECTURE
 read -p 'Mount Volume [n]: ' MOUNT
 
-TYPE=${TYPE:-t3.medium}
+TYPE=${TYPE:-t4g.micro}
 PROFILE=${PROFILE:-default}
 MOUNT=${MOUNT:-n}
+ARCHITECTURE=${ARCHITECTURE:-arm}
 
 if [ ${PROFILE} = "default" ]; then
   VOLUMEID=vol-0e2c6c00585750b66
@@ -17,6 +19,13 @@ else
   SECURITYGROUPID=sg-0b1a8396943ea3572
 fi
 
+if [ ${ARCHITECTURE} = "arm" ]; then
+  IMAGEID=ami-0b4b0a5bd04aec558
+else
+  # x64
+  IMAGEID=ami-0a49b025fffbbdac6
+fi
+
 read -p "Start ${TYPE} instance with ${PROFILE} profile and ${MOUNT} mount [type: yes]: " DO
 
 if [ ! "${DO}" = "yes" ]; then
@@ -24,7 +33,7 @@ if [ ! "${DO}" = "yes" ]; then
   exit 0
 fi
 
-INSTANCE=$(aws --profile ${PROFILE} --region eu-central-1 ec2 run-instances --instance-type "${TYPE}" --subnet-id "${SUBNETID}" --security-group-ids "${SECURITYGROUPID}" --cli-input-json file://instance.json)
+INSTANCE=$(aws --profile ${PROFILE} --region eu-central-1 ec2 run-instances --instance-type "${TYPE}" --image-id "${IMAGEID}" --subnet-id "${SUBNETID}" --security-group-ids "${SECURITYGROUPID}" --cli-input-json file://instance.json)
 sleep 2
 
 INSTANCEID=$(echo "${INSTANCE}" | grep InstanceId | grep -oP "(i-[a-z0-9]*)")
