@@ -1,7 +1,7 @@
 #!/bin/sh
 read -p 'Profile [default]: ' PROFILE
-read -p 'Instance Type [t3.medium]: ' TYPE
-read -p 'Instance Architecture [x64]: ' ARCHITECTURE
+read -p 'Instance Type [t4g.micro]: ' TYPE
+read -p 'Instance Architecture [arm]: ' ARCHITECTURE
 read -p 'Mount Volume [n]: ' MOUNT
 
 TYPE=${TYPE:-t4g.micro}
