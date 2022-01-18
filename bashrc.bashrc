@@ -170,6 +170,10 @@ proxy() {
     printf "\n"
 }
 
+getip() {
+  dig +short myip.opendns.com @resolver1.opendns.com
+}
+
 ## Nicer shell experience
 # export GREP_OPTIONS="--color=auto"; # make grep colorful
 export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD; # make ls more colorful as well
