@@ -53,5 +53,5 @@ if [ "${MOUNT}" = "y" ]; then
 fi
 
 IP=$(aws --profile ${PROFILE} --region eu-central-1 ec2 describe-instances --instance-ids ${INSTANCEID} --query "Reservations[*].Instances[*].PublicIpAddress" | grep -oP "([0-9.]*)")
-echo "scp -r .aws ${IP}: && ssh -A ${IP}"
+echo "scp -r ~/.aws ${IP}: && ssh -A ${IP}"
 
