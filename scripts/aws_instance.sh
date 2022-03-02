@@ -13,6 +13,9 @@ if [ ${PROFILE} = "default" ]; then
   VOLUMEID=vol-0e2c6c00585750b66
   SUBNETID=subnet-103ead6a
   SECURITYGROUPID=sg-2dec4040
+elif [ ${PROFILE} = "aventa" ]; then
+  SUBNETID=subnet-038cb2955e222a20b
+  SECURITYGROUPID=sg-02c4d52f2203b0203
 else
   VOLUMEID=vol-07cc8faa856eb1ffe
   SUBNETID=subnet-09998f9d67efdbf79
