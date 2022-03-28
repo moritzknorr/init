@@ -1,1 +1,1 @@
-awscli unzip parallel curl git tmux vim pass zip
+awscli unzip parallel curl git tmux vim pass zip python3 python3-pip python3-venv
