@@ -38,21 +38,21 @@ touch /home/knorr/ready_user
 # Enable ssh login
 rm /run/nologin
 
-apt -yy update
+# apt -yy update
 
 # cleanup for fresh docker installation
-apt -yy remove docker docker-engine docker.io containerd runc
+# apt -yy remove docker docker-engine docker.io containerd runc
 apt -yy install $(cat init/script/software.txt)
 
 
 # install docker-compose from docker
 # apt version does not support version 3.6
-curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
-ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+# curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+# chmod +x /usr/local/bin/docker-compose
+# ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
 # adduser to docker group
-usermod -a -G docker knorr
+# usermod -a -G docker knorr
 
 # Software Ready Datei anlegen
 touch /home/knorr/ready_software
