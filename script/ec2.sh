@@ -38,10 +38,10 @@ touch /home/knorr/ready_user
 # Enable ssh login
 rm /run/nologin
 
-# apt -yy update
+apt -yy update
 
 # cleanup for fresh docker installation
-# apt -yy remove docker docker-engine docker.io containerd runc
+apt -yy remove docker docker-engine docker.io containerd runc
 apt -yy install $(cat init/script/software.txt)
 
 
