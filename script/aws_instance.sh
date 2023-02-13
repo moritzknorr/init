@@ -1,11 +1,14 @@
 #!/bin/sh
-read -p 'Profile [default]: ' PROFILE
+read -p 'Profile [aventa]: ' PROFILE
+echo 'Available instance types: '
+echo 'ARM: t4g.small (2 Gb), t4g.large (16 Gb), t4g.2xlarge (32 Gb)'
+echo 'x64: t3.small (2 Gb), t3.xlarge (8 Gb), t3.2xlarge (32 Gb), c5.12xlarge (96 Gb)'
 read -p 'Instance Type [t4g.micro]: ' TYPE
 read -p 'Instance Architecture [arm]: ' ARCHITECTURE
 read -p 'Mount Volume [n]: ' MOUNT
 
 TYPE=${TYPE:-t4g.micro}
-PROFILE=${PROFILE:-default}
+PROFILE=${PROFILE:-aventa}
 MOUNT=${MOUNT:-n}
 ARCHITECTURE=${ARCHITECTURE:-arm}
 
