@@ -19,6 +19,9 @@ if [ ${PROFILE} = "default" ]; then
 elif [ ${PROFILE} = "aventa" ]; then
   SUBNETID=subnet-038cb2955e222a20b
   SECURITYGROUPID=sg-02c4d52f2203b0203
+elif [ ${PROFILE} = "aventa-prod" ]; then
+  SUBNETID=subnet-0375a63dc988121ae
+  SECURITYGROUPID=sg-025c5b3bfeb6ffee5
 else
   VOLUMEID=vol-07cc8faa856eb1ffe
   SUBNETID=subnet-09998f9d67efdbf79
