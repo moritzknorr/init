@@ -16,6 +16,7 @@ git clone https://github.com/moritzknorr/init.git
 cp init/config/bashrc.bashrc /home/knorr/.bashrc
 cp init/config/vimrc.vimrc /home/knorr/.vimrc
 cp init/config/gitconfig.gitconfig /home/knorr/.gitconfig
+cp init/config/tmux.tmux.conf /home/knorr/.tmux.conf
 
 # Alle Dateien in /home/knorr ownen
 chown -R knorr:knorr /home/knorr
