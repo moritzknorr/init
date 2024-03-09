@@ -1,4 +1,7 @@
 #!/bin/sh
+
+ENV="aventa-dev"
+
 echo 'Available instance types: '
 echo 'ARM: t4g.small (2 Gb), t4g.large (16 Gb), t4g.2xlarge (32 Gb)'
 echo 'x64: t3.small (2 Gb), t3.xlarge (8 Gb), t3.2xlarge (32 Gb), c5.12xlarge (96 Gb)'
@@ -15,7 +18,17 @@ else
   IMAGEID=ami-0a49b025fffbbdac6
 fi
 
-read -p "Start ${TYPE} instance: " DO
+read -p "Start ${TYPE} instance, type yes: " DO
+
+if [ ${ENV} = "aventa-dev" ]; then
+  SUBNETID=subnet-038cb2955e222a20b
+  SECURITYGROUPID=sg-02c4d52f2203b0203
+elif [ ${ENV} = "aventa-prod" ]; then
+  SUBNETID=subnet-0375a63dc988121ae
+  SECURITYGROUPID=sg-025c5b3bfeb6ffee5
+else
+  exit 1
+fi
 
 if [ ! "${DO}" = "yes" ]; then
   echo 'Stop here'
