@@ -5,7 +5,7 @@
             "Ebs": 
             {
 		"DeleteOnTermination": true,
-                "VolumeSize": 500,
+                "VolumeSize": 100,
                 "VolumeType": "standard",
                 "Encrypted": true
             }
