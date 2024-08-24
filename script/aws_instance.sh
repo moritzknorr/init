@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ENV="aventa-dev"
+ENV="aventapharm"
 
 echo 'Available instance types: '
 echo 'ARM: t4g.small (2 Gb), t4g.large (16 Gb), t4g.2xlarge (32 Gb)'
@@ -27,7 +27,7 @@ elif [ ${ENV} = "aventa-prod" ]; then
   SUBNETID=subnet-0375a63dc988121ae
   SECURITYGROUPID=sg-025c5b3bfeb6ffee5
 elif [ ${ENV} = "aventapharm" ]; then
-  SUBNETID=subnet-0093491461c0c0bf4
+  SUBNETID=subnet-061fc09f17f245c54
   SECURITYGROUPID=sg-001f88f0df2ad4b92
 else
   exit 1
@@ -38,7 +38,7 @@ if [ ! "${DO}" = "yes" ]; then
   exit 0
 fi
 
-INSTANCE=$(aws --region eu-central-1 ec2 run-instances --instance-type "${TYPE}" --image-id "${IMAGEID}" --subnet-id "${SUBNETID}" --security-group-ids "${SECURITYGROUPID}" --cli-input-json file://instance.json)
+INSTANCE=$(aws --profile "${ENV}" --region eu-central-1 ec2 run-instances --instance-type "${TYPE}" --image-id "${IMAGEID}" --subnet-id "${SUBNETID}" --security-group-ids "${SECURITYGROUPID}" --cli-input-json file://instance.json)
 sleep 2
 
 INSTANCEID=$(echo "${INSTANCE}" | grep InstanceId | grep -oP "(i-[a-z0-9]*)")
@@ -46,5 +46,5 @@ INSTANCEID=$(echo "${INSTANCE}" | grep InstanceId | grep -oP "(i-[a-z0-9]*)")
 # Wait for instance
 sleep 15
 
-IP=$(aws --region eu-central-1 ec2 describe-instances --instance-ids ${INSTANCEID} --query "Reservations[*].Instances[*].PublicIpAddress" | grep -oP "([0-9.]*)")
+IP=$(aws --profile "${ENV}" --region eu-central-1 ec2 describe-instances --instance-ids ${INSTANCEID} --query "Reservations[*].Instances[*].PublicIpAddress" | grep -oP "([0-9.]*)")
 echo "ssh -A ${IP}"
