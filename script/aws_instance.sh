@@ -26,6 +26,9 @@ if [ ${ENV} = "aventa-dev" ]; then
 elif [ ${ENV} = "aventa-prod" ]; then
   SUBNETID=subnet-0375a63dc988121ae
   SECURITYGROUPID=sg-025c5b3bfeb6ffee5
+elif [ ${ENV} = "aventapharm" ]; then
+  SUBNETID=subnet-0093491461c0c0bf4
+  SECURITYGROUPID=sg-001f88f0df2ad4b92
 else
   exit 1
 fi
