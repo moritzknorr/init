@@ -3,6 +3,9 @@ set rnu
 set background=dark
 set t_Co=256
 
+" make cursor usable
+set nocompatible
+
 filetype plugin indent on
 " show existing tab with 4 spaces width
 set tabstop=4
