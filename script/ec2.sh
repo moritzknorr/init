@@ -60,6 +60,7 @@ echo \
   $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
   tee /etc/apt/sources.list.d/docker.list > /dev/null
 apt -yy update
+apt -yy install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 # adduser to docker group
 usermod -a -G docker knorr
