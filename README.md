@@ -4,6 +4,9 @@
 
 only ec2.sh is copied onto host.
 
+## Public Key Pair for aws
+`ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCdkYyl7z53CxVnxHGYxCC8f/1U7hZeilSONexi2VP5Cfbg8BgR+ZmwK0KrCBis5sB+mSyCC41KxYfyDHcSwIBYiVgAiFEXiTN+8Ers6HYri9EYxx32JqKKaFCL7euvIQqrukaVR2Jd14nVctaUakzAHPJ/hak3dwb/e5zhZ2Hdd4zQGbuV20cEAJEBS0SqW5uzNm9PN67+7s0zQPNtpSuolrLPf6uK/JqMqdV0ljMZYUKwlAhYiidQQU0n/8sn/0AkZC8EqI3Q3lbNGIcrn10mWBa0UN09cqBm4CrLZX40Y3EBJGxL+pYBIN8ZmzK+1A8pyorbZy2FErFSFPYYwKjN moritzknorr`
+
 ## Desktop Files
 Desktop File:
 Place in `/usr/share/application/stadia.desktop`
