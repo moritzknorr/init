@@ -16,4 +16,4 @@ set expandtab
 " prevent word wrap
 set nowrap
 set textwidth=0
-set wrapmargin=
+set wrapmargin=0
