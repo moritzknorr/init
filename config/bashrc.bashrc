@@ -35,43 +35,6 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-# set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-    xterm-color) color_prompt=yes;;
-esac
-
-# uncomment for a colored prompt, if the terminal has the capability; turned
-# off by default to not distract the user: the focus in a terminal window
-# should be on the output of commands, not on the prompt
-#force_color_prompt=yes
-
-if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
-    else
-	color_prompt=
-    fi
-fi
-
-if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-fi
-unset color_prompt force_color_prompt
-
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
-esac
-
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -82,20 +45,6 @@ if [ -x /usr/bin/dircolors ]; then
     #alias grep='grep --color=auto'
     #alias fgrep='fgrep --color=auto'
     #alias egrep='egrep --color=auto'
-fi
-
-# some more ls aliases
-alias ll='ls -l'
-#alias la='ls -A'
-#alias l='ls -CF'
-
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -158,8 +107,8 @@ export HISTSIZE=32768; # Larger bash history (allow 32³ entries; default is 500
 export HISTFILESIZE=$HISTSIZE;
 export HISTCONTROL=ignoredups; # Remove duplicates from history. I use `git status` a lot.
 export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"; # Make some commands not show up in history
-#export LANG="en_US.UTF-8"; # Language formatting is still important
-#export LC_ALL="en_US.UTF-8"; # byte-wise sorting and force language for those pesky apps
+export LANG="en_US.UTF-8"; # Language formatting is still important
+export LC_ALL="en_US.UTF-8"; # byte-wise sorting and force language for those pesky apps
 export MANPAGER="less -X"; # Less is more
 
 # Add timestamps to history for better context
@@ -170,11 +119,6 @@ alias rm='rm -i'
 
 # A better 'ls' (your 'll' is good, this one is an alternative)
 alias l='ls -lAh' # List all files, human-readable sizes
-
-# https://unix.stackexchange.com/a/113768
-# if command -v tmux &> /dev/null && [ -n "$PS3" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-#   exec tmux
-# fi
 
 # Auto-start tmux
 if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
