@@ -128,3 +128,4 @@ if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
 fi
 
 EDITOR="/usr/bin/vim"
+export TERM=screen-256color
