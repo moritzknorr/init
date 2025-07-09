@@ -125,8 +125,6 @@ export environ="$HOME/.ssh/environment"
 
 shopt -s no_empty_cmd_completion
 
-TERM=xterm-256color
-
 # required functions for proxy
 urlencode() {
     # urlencode <string>
@@ -149,33 +147,12 @@ urldecode() {
     printf '%b' "${url_encoded//%/\\x}"
 }
 
-
-# git clone Alias
-
-gc() {
-  git clone git@github.com:moritzknorr/${1}.git
-}
-
-gch() {
-  git clone https://github.com/moritzknorr/${1}.git
-}
-
-proxy() {
-    read -s -p "Windows Passwort: " PASSWORD
-    PASSWORD=$(urlencode "$PASSWORD")
-    export http_proxy=http://$USER:$PASSWORD@localhost:8080
-    export https_proxy=http://$USER:$PASSWORD@localhost:8080
-    export HTTP_PROXY=http://$USER:$PASSWORD@localhost:8080
-    export HTTPS_PROXY=http://$USER:$PASSWORD@localhost:8080
-    printf "\n"
-}
-
 getip() {
-  dig +short myip.opendns.com @resolver1.opendns.com
+  curl -4 icanhazip.com
 }
 
 ## Nicer shell experience
-# export GREP_OPTIONS="--color=auto"; # make grep colorful
+export GREP_OPTIONS="--color=auto"; # make grep colorful
 export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD; # make ls more colorful as well
 export HISTSIZE=32768; # Larger bash history (allow 32³ entries; default is 500)
 export HISTFILESIZE=$HISTSIZE;
@@ -185,8 +162,25 @@ export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"; # Make some commands not 
 #export LC_ALL="en_US.UTF-8"; # byte-wise sorting and force language for those pesky apps
 export MANPAGER="less -X"; # Less is more
 
+# Add timestamps to history for better context
+export HISTTIMEFORMAT="%F %T " # Format: YYYY-MM-DD HH:MM:SS
+
+# A safer 'rm'
+alias rm='rm -i'
+
+# A better 'ls' (your 'll' is good, this one is an alternative)
+alias l='ls -lAh' # List all files, human-readable sizes
+
 # https://unix.stackexchange.com/a/113768
 # if command -v tmux &> /dev/null && [ -n "$PS3" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
 #   exec tmux
 # fi
+
+# Auto-start tmux
+if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
+  # If a session named "main" exists, attach to it.
+  # Otherwise, create a new session named "main".
+  (tmux has-session -t main 2>/dev/null && tmux attach -t main) || tmux new-session -s main
+fi
+
 EDITOR="/usr/bin/vim"
