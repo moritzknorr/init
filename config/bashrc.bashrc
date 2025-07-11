@@ -120,11 +120,11 @@ alias rm='rm -i'
 # A better 'ls' (your 'll' is good, this one is an alternative)
 alias l='ls -lAh' # List all files, human-readable sizes
 
-# Auto-start tmux
-if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
-  # If a session named "main" exists, attach to it.
-  # Otherwise, create a new session named "main".
-  (tmux has-session -t main 2>/dev/null && tmux attach -t main) || tmux new-session -s main
+# Auto-start tmux, if not called from vscode
+if command -v tmux &> /dev/null && [ -z "$TMUX" ] && [ "$TERM_PROGRAM" != "vscode" ]; then
+    # If a session named "main" exists, attach to it.
+    #   # Otherwise, create a new session named "main".
+    (tmux has-session -t main 2>/dev/null && tmux attach -t main) || tmux new-session -s main
 fi
 
 EDITOR="/usr/bin/vim"
