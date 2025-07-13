@@ -117,6 +117,9 @@ export HISTTIMEFORMAT="%F %T " # Format: YYYY-MM-DD HH:MM:SS
 # A safer 'rm'
 alias rm='rm -i'
 
+# less with line numbers
+alias less='less -N'
+
 # A better 'ls' (your 'll' is good, this one is an alternative)
 alias l='ls -lAh' # List all files, human-readable sizes
 
