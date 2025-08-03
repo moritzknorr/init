@@ -42,7 +42,7 @@
   powerManagement.enable = true;
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -65,7 +65,7 @@
   # Desktop Environment and Login Manager
   services.xserver.enable = true;
   services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = false; # Disable default desktop manager
+  services.desktopManager.gnome.enable = false; # Disable default desktop manager
 
   # Enable SSH Server
   services.openssh.enable = true;
