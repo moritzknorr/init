@@ -22,8 +22,8 @@
     # User specific packages can be installed here
   ];
 
-  # Add authorized keys
-  home.file.".ssh/authorized_keys" = { text = builtins.readFile ../authorized_keys; force = true; mode = "0600"; };
+  # Add authorized keys does not work
+  # home.file.".ssh/authorized_keys" = { text = builtins.readFile ../authorized_keys; force = true; mode = "0600"; };
 
   # Add dotfiles from ../config
   home.file.".bashrc" = { source = ../config/bashrc.bashrc; force = true; };
