@@ -87,6 +87,7 @@
     networkmanagerapplet
     pavucontrol
     blueman
+    kitty
     # File managers
     nemo
     yazi
