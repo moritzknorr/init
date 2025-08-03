@@ -14,6 +14,7 @@
 # Prompt to generate configs:
 ```
 Define a basic minimal configuration for nixos with flake and home-manager.
+Generate files `configuration.nix`, `flake.nix` and `home.nix`
 Do not add any quotes (e.g. [1], [1, 2] to the configuration files, only to the explanation.
 Use the following setup:
 - Hardware:
@@ -47,6 +48,6 @@ Use the following setup:
 - User Configuration
   - name: knorr
   - full name: Moritz Knorr
-  - configuration files: .tmux.conf, .bashrc, .gitconfig, .vim.rc
+  - configuration files: .tmux.conf, .bashrc, .gitconfig, .vim.rc, hyprland.conf
   - authorized keys file for SSH: authorized_keys
 ```
