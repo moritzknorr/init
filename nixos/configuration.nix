@@ -38,6 +38,8 @@
 
   # Hardware
   powerManagement.enable = false;
+  # Enable uinput for solaar
+  hardware.uinput.enable = true;
   # Enable bluetooth
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
@@ -76,7 +78,7 @@
   users.users.knorr = {
     isNormalUser = true;
     description = "Moritz Knorr";
-    extraGroups = [ "wheel" "networkmanager" "video" "audio" "lp" ];
+    extraGroups = [ "wheel" "networkmanager" "video" "audio" "lp" "uinput" ];
     shell = pkgs.bash;
   };
 
