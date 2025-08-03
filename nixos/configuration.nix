@@ -65,7 +65,12 @@
   programs.hyprland.xwayland.enable = true;
 
   # Enable SSH Server
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    settings.PasswordAuthentication = false;
+    settings.KbdInteractiveAuthentication = false;
+    settings.PermitRootLogin = "no";
+  };
 
   # Define a user account.
   users.users.knorr = {
