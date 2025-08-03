@@ -46,4 +46,5 @@ Use the following setup:
   - name: knorr
   - full name: Moritz Knorr
   - configuration files: .tmux.conf, .bashrc, .gitconfig, .vim.rc
+Do not add any quotes to the configuration files, only to the explanation.
 ```
