@@ -63,6 +63,9 @@
     open = true;
   };
 
+  # Enable envs to get the illusion of an old file system, otherwise "#!/bin/bash" does not work
+  services.envfs.enable = true;
+
   # Enable Wayland and Hyprland
   programs.hyprland.enable = true;
   programs.hyprland.xwayland.enable = true;
@@ -79,7 +82,7 @@
   users.users.knorr = {
     isNormalUser = true;
     description = "Moritz Knorr";
-    extraGroups = [ "wheel" "networkmanager" "video" "audio" "lp" "uinput" ];
+    extraGroups = [ "wheel" "networkmanager" "video" "audio" "lp" "uinput" "seat" "input" ];
     shell = pkgs.bash;
   };
   security.sudo.extraRules = [
