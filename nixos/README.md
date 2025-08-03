@@ -14,6 +14,7 @@
 # Prompt to generate configs:
 ```
 Define a basic minimal configuration for nixos with flake and home-manager.
+Do not add any quotes (e.g. [1], [1, 2] to the configuration files, only to the explanation.
 Use the following setup:
 - Hardware:
   - Graphics Card: ASUS Nvidia Geforce RTX 2060
@@ -48,5 +49,4 @@ Use the following setup:
   - full name: Moritz Knorr
   - configuration files: .tmux.conf, .bashrc, .gitconfig, .vim.rc
   - authorized keys file for SSH: authorized_keys
-Do not add any quotes to the configuration files, only to the explanation.
 ```
