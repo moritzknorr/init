@@ -1,16 +1,16 @@
 # Alternatives
-- OS: *Linux*, Windows, MacOS, ChromeOS
-- Distro: *nixos*, arch, ubuntu
-- Display Server: *wayland*, x
-- Display Manager: *LightDM*, SDDM
-- Window Manager: *hyprland*, sway
-- Audio / Video Manager: *pipewire*, pulseaudio
-- Taskbar: *waybar*, hyprpanel
-- Application Starter: *wofi*, rofi
-- Lock-Screen: *hyprlock*
-- Clipboard Manager: *cliphist*
-- Notifications: *mako*, dunst
-- Default Shell: *bash*, sh, zsh, fish
+- OS: **Linux**, Windows, MacOS, ChromeOS
+- Distro: **nixos**, arch, ubuntu
+- Display Server: **wayland**, x
+- Display Manager: **LightDM**, SDDM
+- Window Manager: **hyprland**, sway
+- Audio / Video Manager: **pipewire**, pulseaudio
+- Taskbar: **waybar**, hyprpanel
+- Application Starter: **wofi**, rofi
+- Lock-Screen: **hyprlock**
+- Clipboard Manager: **cliphist**
+- Notifications: **mako**, dunst
+- Default Shell: **bash**, sh, zsh, fish
 # Prompt to generate configs:
 ```
 Define a basic minimal configuration for nixos with flake and home-manager.
