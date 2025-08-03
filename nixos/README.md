@@ -11,7 +11,7 @@
 - Clipboard Manager: **cliphist**
 - Notifications: **mako**, dunst
 - Default Shell: **bash**, sh, zsh, fish
-# Prompt to generate configs:
+# Prompt to generate nixos configs:
 ```
 Define a basic minimal configuration for nixos with flake and home-manager.
 Generate files `configuration.nix`, `flake.nix` and `home.nix`
@@ -33,6 +33,7 @@ Use the following setup:
   - Lock-Screen: hyprlock
   - Clipboard-Manager: cliphist
   - Notification: mako
+  - Wallpaper: hyprpaper
   - Default-Shell: bash
   - SSH Server: activated
 - Additional Software:
@@ -44,6 +45,7 @@ Use the following setup:
   - Browser: google-chrome (default browser)
   - IDE: vscode
   - Managing Logitech Bluetooth devices: Solaar
+  - Music: Spotify
   - tmux
   - git
 - User Configuration
@@ -51,4 +53,16 @@ Use the following setup:
   - full name: Moritz Knorr
   - configuration files: .tmux.conf, .bashrc, .gitconfig, .vim.rc, hyprland.conf
   - authorized keys file for SSH: authorized_keys
+# Prompt to generate `hyperland.conf`
+```
+Generate a basic minimal `hyprland.conf` file.
+- Two monitors via HDMI using an NVIDIA Graphics card.
+- Startup: waybar, hyprpaper, mako, cliphist
+- Keyboard is german.
+- Minimal Keybindings.
+- Little space between windows.
+- Little rounding of window borders.
+- Little shadow of windows.
+- Follow mouse.
+- Smooth, but quick animations.
 ```
