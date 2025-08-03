@@ -15,6 +15,7 @@
 ```
 Define a basic minimal configuration for nixos with flake and home-manager.
 Generate files `configuration.nix`, `flake.nix` and `home.nix`
+Do not add hyprland or bash configuration into `home.nix`, they will be managed in configuration files.
 Do not add any quotes (e.g. [1], [1, 2] to the configuration files, only to the explanation.
 Use the following setup:
 - Hardware:
