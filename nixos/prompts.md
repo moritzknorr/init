@@ -10,6 +10,7 @@ Use the following setup:
   - Display Manager: LightDM
   - Default-Shell: bash
   - Window Manager: hyprland
+  - Audio / Video Manager: pipewire
   - Taskbar: hyprbar
   - Application Starter: wofi
   - Lock-Screen: hyprlock
@@ -17,7 +18,7 @@ Use the following setup:
   - Notification: mako
 - Additional Software:
   - Manage networks: NetworkManager
-  - Manage audio: pulseaudio
+  - Manage audio: pavucontrol
   - Manage Bluetooth: blueman
   - File-Manager GUI: Thunar
   - File-Manager Shell: yazi
@@ -26,4 +27,5 @@ Use the following setup:
   - Managing Logitech Bluetooth devices: Solaar
   - tmux
   - git
+  - hyprland-nvidia-git
 ```
