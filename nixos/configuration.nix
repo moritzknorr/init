@@ -123,6 +123,9 @@
     satty
     slurp
     grim
+    # Tools to monitor wayland
+    ## Wayland Event Viewer
+    wev
     # Logitech Options for solaar
     logiops
     # Misc tools to get a working system
