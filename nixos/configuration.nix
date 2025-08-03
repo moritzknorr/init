@@ -82,6 +82,7 @@
     extraGroups = [ "wheel" "networkmanager" "video" "audio" "lp" "uinput" ];
     shell = pkgs.bash;
   };
+  security.sudo.wheelNeedsPassword = false;
 
   # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
