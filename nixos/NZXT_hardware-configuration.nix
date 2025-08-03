@@ -39,6 +39,6 @@
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
   boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true
+  boot.loader.efi.canTouchEfiVariables = true;
 
 }
