@@ -91,7 +91,7 @@
     pavucontrol
     blueman
     # File managers
-    thunar
+    nemo
     yazi
     # Applications
     google-chrome
