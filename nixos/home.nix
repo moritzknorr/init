@@ -33,9 +33,9 @@
 
   # Add desktop environment configs from ../hypr/
   home.file.".config/hypr/hyprland.conf" = { source = ../hypr/hyprland.conf; force = true; };
-  home.file.".config/hpyr/hyprlock.conf" = { source = ../hypr/hyprlock.conf; force = true; }
-  home.file.".config/waybar/config" = { source = ../hypr/waybar.config; force = true; }
-  home.file.".config/waybar/style.css" = { source = ../hypr/waybar.css; force = true; }
+  home.file.".config/hpyr/hyprlock.conf" = { source = ../hypr/hyprlock.conf; force = true; };
+  home.file.".config/waybar/config" = { source = ../hypr/waybar.config; force = true; };
+  home.file.".config/waybar/style.css" = { source = ../hypr/waybar.css; force = true; };
 
 
   # Set default browser
