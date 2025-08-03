@@ -105,6 +105,11 @@
     tmux
     git
     vim
+    # Misc tools to get a working system
+    busybox
+    toybox
+    usbutils
+    pciutils
   ];
 
   # Allow unfree packages
