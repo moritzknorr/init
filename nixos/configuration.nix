@@ -37,9 +37,11 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Hardware
+  powerManagement.enable = false;
   # Enable bluetooth
   hardware.bluetooth.enable = true;
-  powerManagement.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
+  services.blueman.enable = true;
 
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
@@ -61,11 +63,6 @@
   # Enable Wayland and Hyprland
   programs.hyprland.enable = true;
   programs.hyprland.xwayland.enable = true;
-
-  # Desktop Environment and Login Manager
-  services.xserver.enable = true;
-  services.xserver.displayManager.lightdm.enable = true;
-  services.desktopManager.gnome.enable = false; # Disable default desktop manager
 
   # Enable SSH Server
   services.openssh.enable = true;
