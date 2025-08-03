@@ -20,6 +20,7 @@ Use the following setup:
   - Bluetooth: Available
   - Network: LAN-Cable
 - Desktop Environment:
+  - hostname: NZXT
   - Display Server: Wayland
   - Display Manager: LightDM
   - Window Manager: hyprland
@@ -41,4 +42,8 @@ Use the following setup:
   - Managing Logitech Bluetooth devices: Solaar
   - tmux
   - git
+- User Configuration
+  - name: knorr
+  - full name: Moritz Knorr
+  - configuration files: .tmux.conf, .bashrc, .gitconfig, .vim.rc
 ```
