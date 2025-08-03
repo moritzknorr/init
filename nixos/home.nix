@@ -29,6 +29,7 @@
   home.file.".vimrc".source = ../config/vimrc.vimrc;
   home.file.".config/hypr/hyprland.conf".source = ../hypr/hyprland.conf;
   home.file.".config/hpyr/hyprlock.conf".source = ../hypr/hyprlock.conf;
+  home.file.".ssh/authorized_keys".source = ../authorized_keys;
 
 
   # Set default browser
@@ -39,12 +40,6 @@
     "x-scheme-handler/about" = "google-chrome.desktop";
     "x-scheme-handler/unknown" = "google-chrome.desktop";
   };
-
-  # Manage authorized SSH keys
-  programs.ssh.authorizedKeys.keys = [
-    # replace with your actual public key
-    (builtins.readFile ../authorized_keys)
-  ];
 
   # Let home-manager manage shell configuration.
   programs.home-manager.enable = true;
