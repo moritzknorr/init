@@ -1,0 +1,35 @@
+* {
+    /* A basic font that is likely to be available */
+    font-family: sans-serif;
+    font-size: 13px;
+}
+
+window#waybar {
+    /* A dark background and light text */
+    background-color: #2e3440;
+    color: #d8dee9;
+    transition-property: background-color;
+    transition-duration: .5s;
+}
+
+#workspaces button {
+    padding: 0 5px;
+    background-color: transparent;
+    color: #d8dee9;
+}
+
+/* Style for the active workspace */
+#workspaces button.focused {
+    background-color: #4c566a;
+    border-radius: 3px;
+}
+
+#mode {
+    padding: 0 5px;
+    background-color: #bf616a;
+    border-radius: 3px;
+}
+
+#clock {
+    padding: 0 10px;
+}
