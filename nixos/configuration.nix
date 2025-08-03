@@ -2,9 +2,7 @@
 
 {
   imports = [
-    # It is a good practice to import hardware-specific configurations.
-    # You can find your hardware configuration by running: nixos-generate-config
-    # and looking for a hardware-scan.nix file.
+    ./NZXT_hardware-configuration.nix
   ];
 
   # Bootloader.
@@ -55,6 +53,10 @@
 
   # Graphics Drivers
   services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.nvidia = {
+    modesetting.enable = true;
+    open = true;
+  };
 
   # Enable Wayland and Hyprland
   programs.hyprland.enable = true;
