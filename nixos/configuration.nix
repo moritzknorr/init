@@ -39,6 +39,7 @@
   # Hardware
   powerManagement.enable = false;
   # Enable uinput for solaar
+  hardware.logitech.wireless.enable = true;
   hardware.uinput.enable = true;
   # Enable bluetooth
   hardware.bluetooth.enable = true;
@@ -107,6 +108,8 @@
     tmux
     git
     vim
+    # Logitech Options for solaar
+    logiops
     # Misc tools to get a working system
     busybox
     toybox
