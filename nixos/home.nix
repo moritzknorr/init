@@ -22,6 +22,9 @@
     # User specific packages can be installed here
   ];
 
+  # Add authorized keys
+  home.file.".ssh/authorized_keys".source = ../authorized_keys;
+
   # Add dotfiles from ../config
   home.file.".bashrc" = { source = ../config/bashrc.bashrc; force = true; };
   home.file.".gitconfig" = { source = ../config/gitconfig.gitconfig; force = true; };
