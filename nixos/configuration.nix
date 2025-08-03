@@ -88,6 +88,7 @@
     hyprlock
     cliphist
     mako
+    wayvnc
     # System utilities
     networkmanagerapplet
     pavucontrol
