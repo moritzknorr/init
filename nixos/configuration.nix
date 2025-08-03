@@ -71,7 +71,7 @@
   users.users.knorr = {
     isNormalUser = true;
     description = "Moritz Knorr";
-    extraGroups = [ "wheel" "networkmanager" "video" "audio" ];
+    extraGroups = [ "wheel" "networkmanager" "video" "audio" "lp" ];
     shell = pkgs.bash;
   };
 
