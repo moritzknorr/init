@@ -43,7 +43,7 @@
   # Manage authorized SSH keys
   programs.ssh.authorizedKeys.keys = [
     # replace with your actual public key
-    (builtins.readFile ./authorized_keys)
+    (builtins.readFile ../authorized_keys)
   ];
 
   # Let home-manager manage shell configuration.
