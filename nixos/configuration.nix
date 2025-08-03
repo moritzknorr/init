@@ -82,7 +82,17 @@
     extraGroups = [ "wheel" "networkmanager" "video" "audio" "lp" "uinput" ];
     shell = pkgs.bash;
   };
-  security.sudo.wheelNeedsPassword = false;
+  security.sudo.extraRules = [
+    {
+      users = [ "knorr" ];
+      commands = [
+        {
+          command = "ALL";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
 
   # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
