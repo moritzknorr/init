@@ -24,8 +24,8 @@
 
   # Link dotfiles
   home.file.".bashrc".source = ../config/bashrc.bashrc;
-  home.file.".gitconfig".source = ../config./gitconfig.gitconfig;
-  home.file.".tmux.conf".source = ../config./tmux.tmux.conf;
+  home.file.".gitconfig".source = ../config/gitconfig.gitconfig;
+  home.file.".tmux.conf".source = ../config/tmux.tmux.conf;
   home.file.".vimrc".source = ../config/vimrc.vimrc;
   home.file.".config/hypr/hyprland.conf".source = ../hypr/hyprland.conf;
   home.file.".config/hpyr/hyprlock.conf".source = ../hypr/hyprlock.conf;
