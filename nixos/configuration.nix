@@ -81,7 +81,7 @@
   # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
     # Hyprland ecosystem
-    hyprbar
+    waybar
     wofi
     hyprlock
     cliphist
