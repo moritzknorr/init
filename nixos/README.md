@@ -10,6 +10,7 @@
 - Lock-Screen: **hyprlock**
 - Clipboard Manager: **cliphist**
 - Notifications: **mako**, dunst
+- File Manager: **nemo**, thunar
 - Default Shell: **bash**, sh, zsh, fish
 # Prompt to generate nixos configs:
 ```
@@ -40,7 +41,7 @@ Use the following setup:
   - Manage networks: NetworkManager with NMApplet
   - Manage audio: pavucontrol
   - Manage Bluetooth: blueman
-  - File-Manager GUI: Thunar
+  - File-Manager GUI: nemo
   - File-Manager Shell: yazi
   - Browser: google-chrome (default browser)
   - IDE: vscode
