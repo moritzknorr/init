@@ -23,13 +23,7 @@
   ];
 
   # Add authorized keys
-  # home.file.".ssh/authorized_keys" = { text = builtins.readFile ../authorized_keys; force = true; };
-  programs.ssh = {
-    enable = true;
-    authorizedKeys.keys = [
-      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCdkYyl7z53CxVnxHGYxCC8f/1U7hZeilSONexi2VP5Cfbg8BgR+ZmwK0KrCBis5sB+mSyCC41KxYfyDHcSwIBYiVgAiFEXiTN+8Ers6HYri9EYxx32JqKKaFCL7euvIQqrukaVR2Jd14nVctaUakzAHPJ/hak3dwb/e5zhZ2Hdd4zQGbuV20cEAJEBS0SqW5uzNm9PN67+7s0zQPNtpSuolrLPf6uK/JqMqdV0ljMZYUKwlAhYiidQQU0n/8sn/0AkZC8EqI3Q3lbNGIcrn10mWBa0UN09cqBm4CrLZX40Y3EBJGxL+pYBIN8ZmzK+1A8pyorbZy2FErFSFPYYwKjN moritzknorr"
-    ];
-  };
+  home.file.".ssh/authorized_keys" = { text = builtins.readFile ../authorized_keys; force = true; mode = "0600"; };
 
   # Add dotfiles from ../config
   home.file.".bashrc" = { source = ../config/bashrc.bashrc; force = true; };
