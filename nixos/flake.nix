@@ -8,7 +8,7 @@
     solaar = { url = "https://flakehub.com/f/Svenum/Solaar-Flake/*.tar.gz"; inputs.nixpkgs.follows = "nixpkgs"; };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }: {
+  outputs = { self, nixpkgs, home-manager, solaar, ... }: {
     nixosConfigurations.NZXT = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit home-manager; };
