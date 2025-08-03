@@ -31,6 +31,7 @@ Use the following setup:
   - Clipboard-Manager: cliphist
   - Notification: mako
   - Default-Shell: bash
+  - SSH Server: activated
 - Additional Software:
   - Manage networks: NetworkManager with NMApplet
   - Manage audio: pavucontrol
@@ -46,5 +47,6 @@ Use the following setup:
   - name: knorr
   - full name: Moritz Knorr
   - configuration files: .tmux.conf, .bashrc, .gitconfig, .vim.rc
+  - authorized keys file for SSH: authorized_keys
 Do not add any quotes to the configuration files, only to the explanation.
 ```
