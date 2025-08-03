@@ -23,7 +23,7 @@
   ];
 
   # Add authorized keys
-  home.file.".ssh/authorized_keys" = { text = builtins.readFile ../authorized_keys; };
+  home.file.".ssh/authorized_keys" = { text = builtins.readFile ../authorized_keys; force = true; };
 
   # Add dotfiles from ../config
   home.file.".bashrc" = { source = ../config/bashrc.bashrc; force = true; };
