@@ -41,5 +41,4 @@ Use the following setup:
   - Managing Logitech Bluetooth devices: Solaar
   - tmux
   - git
-  - hyprland-nvidia-git
 ```
