@@ -108,6 +108,10 @@
     tmux
     git
     vim
+    # Screenshot tools
+    satty
+    slurp
+    grim
     # Logitech Options for solaar
     logiops
     # Misc tools to get a working system
