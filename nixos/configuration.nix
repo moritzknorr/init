@@ -5,9 +5,8 @@
     ./NZXT_hardware-configuration.nix
   ];
 
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  # Enable networking
+  networking.networkmanager.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
@@ -28,10 +27,6 @@
     LC_TELEPHONE = "de_DE.UTF-8";
     LC_TIME = "de_DE.UTF-8";
   };
-
-  # Enable networking
-  networking.hostName = "NZXT";
-  networking.networkmanager.enable = true;
 
   # Configure Nix
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -97,6 +92,13 @@
     }
   ];
 
+  # Add nix-ld to get vscode working:
+  programs.nix-ld.enable = true;
+
+
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
   # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
     # Hyprland ecosystem
@@ -120,6 +122,9 @@
     google-chrome
     vscode
     solaar
+    python313Full
+    awscli
+    zip
     # Terminal tools
     htop
     btop
@@ -132,6 +137,8 @@
     grim
     # Tools to monitor wayland
     wev
+    # Nvidia Tools
+    nvtopPackages.full
     # Logitech Options for solaar
     logiops
     # Misc tools to get a working system
@@ -141,8 +148,6 @@
     pciutils
   ];
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -152,7 +157,4 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.05"; # Did you read the comment?
 
-
-
-  hardware.opengl.enable = true;
 }

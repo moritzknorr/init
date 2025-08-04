@@ -123,6 +123,9 @@ alias less='less -N'
 # A better 'ls' (your 'll' is good, this one is an alternative)
 alias l='ls -lAh' # List all files, human-readable sizes
 
+# Clear
+alias c='clear'
+
 # Auto-start tmux, if not called from vscode or in Hyprland
 if command -v tmux &> /dev/null && [ -z "$TMUX" ] && [ "$TERM_PROGRAM" != "vscode" ] && [ -z "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
     # If a session named "main" exists, attach to it.
