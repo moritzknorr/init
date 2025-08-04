@@ -25,6 +25,9 @@
   # Add authorized keys does not work
   # home.file.".ssh/authorized_keys" = { text = builtins.readFile ../authorized_keys; force = true; mode = "0600"; };
 
+  # Add bash_profile to parse .bashrc
+  home.file.".bash_profile" = { source = ../desktop_environment/bash_profile.bash_profile; force = true; };
+
   # Add dotfiles from ../config
   home.file.".bashrc" = { source = ../config/bashrc.bashrc; force = true; };
   home.file.".gitconfig" = { source = ../config/gitconfig.gitconfig; force = true; };
@@ -33,11 +36,14 @@
 
   # Add desktop environment configs from ../desktop_environment/
   home.file.".config/hypr/hyprland.conf" = { source = ../desktop_environment/hyprland.conf; force = true; };
-  home.file.".config/hpyr/hyprlock.conf" = { source = ../desktop_environment/hyprlock.conf; force = true; };
+  home.file.".config/hypr/hyprlock.conf" = { source = ../desktop_environment/hyprlock.conf; force = true; };
+  home.file.".config/hypr/hyprpaper.conf" = { source = ../desktop_environment/hyprpaper.conf; force = true; };
+  home.file.".config/wofi/style.css" = { source = ../desktop_environment/wofi_style.css; force = true; };
   home.file.".config/waybar/config" = { source = ../desktop_environment/waybar.config; force = true; };
   home.file.".config/waybar/style.css" = { source = ../desktop_environment/waybar.css; force = true; };
+  home.file.".config/kitty/kitty.conf" = { source = ../desktop_environment/kitty.conf; force = true; };
   home.file.".config/solaar/config.yaml" = { source = ../desktop_environment/solaar.config.yaml; force = true; };
-  home.file.".bash_profile" = { source = ../desktop_environment/bash_profile.bash_profile; force = true; };
+
 
 
   # Set default browser

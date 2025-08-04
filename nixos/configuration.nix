@@ -104,6 +104,7 @@
     # Hyprland ecosystem
     waybar
     wofi
+    hyprpaper
     hyprlock
     cliphist
     mako
