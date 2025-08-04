@@ -30,13 +30,14 @@
   home.file.".gitconfig" = { source = ../config/gitconfig.gitconfig; force = true; };
   home.file.".tmux.conf" = { source = ../config/tmux.tmux.conf; force = true; };
   home.file.".vimrc" = { source = ../config/vimrc.vimrc; force = true; };
-  home.file.".bash_profile" = { source = ../config/bash_profile.bash_profile; force = true; };
 
   # Add desktop environment configs from ../hypr/
   home.file.".config/hypr/hyprland.conf" = { source = ../hypr/hyprland.conf; force = true; };
   home.file.".config/hpyr/hyprlock.conf" = { source = ../hypr/hyprlock.conf; force = true; };
   home.file.".config/waybar/config" = { source = ../hypr/waybar.config; force = true; };
   home.file.".config/waybar/style.css" = { source = ../hypr/waybar.css; force = true; };
+  home.file.".config/solaar/config.yaml" = { source = ../hypr/solaar.config.profile; force = true; };
+  home.file.".bash_profile" = { source = ../hypr/bash_profile.bash_profile; force = true; };
 
 
   # Set default browser

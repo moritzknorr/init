@@ -105,7 +105,9 @@
     hyprlock
     cliphist
     mako
+    # Tools to get vnc running
     wayvnc
+    mesa
     # System utilities
     networkmanagerapplet
     pavucontrol
@@ -119,6 +121,8 @@
     vscode
     solaar
     # Terminal tools
+    htop
+    btop
     tmux
     git
     vim
@@ -127,7 +131,6 @@
     slurp
     grim
     # Tools to monitor wayland
-    ## Wayland Event Viewer
     wev
     # Logitech Options for solaar
     logiops
@@ -149,4 +152,7 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.05"; # Did you read the comment?
 
+
+
+  hardware.opengl.enable = true;
 }
