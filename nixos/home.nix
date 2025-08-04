@@ -1,5 +1,5 @@
 # home.nix
-{ config, pkgs, ... }:
+{ inputs, config, pkgs, ... }:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -74,7 +74,6 @@
     x11.enable = true;
   };
 
-
   gtk = {
     enable = true;
     theme = {
@@ -96,4 +95,5 @@
       gtk-application-prefer-dark-theme = 1;
     };
   };
+
 }

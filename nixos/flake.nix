@@ -6,6 +6,8 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     home-manager = { url = "github:nix-community/home-manager"; inputs.nixpkgs.follows = "nixpkgs"; };
     solaar = { url = "https://flakehub.com/f/Svenum/Solaar-Flake/*.tar.gz"; inputs.nixpkgs.follows = "nixpkgs"; };
+    hyprland.url = "github:hyprwm/Hyprland";
+    hyprland-plugins = { url = "github:hyprwm/hyprland-plugins"; inputs.hyprland.follows = "hyprland"; };
   };
 
   outputs = { self, nixpkgs, home-manager, solaar, ... }: {

@@ -137,6 +137,7 @@
     tmux
     git
     vim
+    jq
     # Screenshot tools
     satty
     slurp

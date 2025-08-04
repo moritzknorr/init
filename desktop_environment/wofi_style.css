@@ -32,8 +32,8 @@
     background-color: rgba(30, 30, 30, 1);
 }
 
-/* Add rounded corners to the Wofi window */
 window {
     background-color: rgba(20, 20, 20, 0.2);
-    border-radius: 10px; /* 10px radius for rounded corners */
+    border-radius: 10px;
+    font-family: "Noto Sans Mono", sans-serif;
 }
