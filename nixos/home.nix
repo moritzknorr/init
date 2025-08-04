@@ -18,8 +18,10 @@
   home.stateVersion = "24.05";
 
   # The star of the show. You can configure anything you want here.
-  home.packages = [
-    # User specific packages can be installed here
+  home.packages = with pkgs; [
+    google-chrome
+    vscode
+    spotify
   ];
 
   # Add authorized keys does not work
@@ -45,7 +47,6 @@
   home.file.".config/solaar/config.yaml" = { source = ../desktop_environment/solaar.config.yaml; force = true; };
 
 
-
   # Set default browser
   xdg.mimeApps.defaultApplications = {
     "text/html" = "google-chrome.desktop";
@@ -57,4 +58,42 @@
 
   # Let home-manager manage shell configuration.
   programs.home-manager.enable = true;
+  
+  # Enable Cliphist for User
+  services.cliphist = {
+    enable = true;
+    allowImages = true;
+  };
+
+  home.pointerCursor = {
+    package = pkgs.bibata-cursors;
+    name = "Bibata-Modern-Classic";
+    size = 24;
+    hyprcursor.enable = true;
+    gtk.enable = true;
+    x11.enable = true;
+  };
+
+
+  gtk = {
+    enable = true;
+    theme = {
+      name = "Adwaita-dark";
+      package = pkgs.gnome-themes-extra;
+    };
+    iconTheme = {
+      package = pkgs.papirus-icon-theme;
+      name = "kora";
+    };
+    font = {
+      name = "Noto Sans";
+      size = 12;
+    };
+    gtk3.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
+    };
+    gtk4.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
+    };
+  };
 }

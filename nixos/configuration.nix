@@ -98,6 +98,15 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  
+  # Setup file manager
+  services.gvfs.enable = true; # Mount trash and other functionalities
+  services.tumbler.enable = true; # Thumbnails
+  programs.thunar.enable = true;
+  programs.thunar.plugins = with pkgs.xfce; [
+    thunar-archive-plugin
+    thunar-volman
+  ];
 
   # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
@@ -106,22 +115,18 @@
     wofi
     hyprpaper
     hyprlock
-    cliphist
     mako
-    # Tools to get vnc running
-    wayvnc
-    mesa
+    # Clipboard
+    cliphist
+    wl-clipboard
     # System utilities
     networkmanagerapplet
     pavucontrol
     blueman
     kitty
     # File managers
-    nemo
     yazi
     # Applications
-    google-chrome
-    vscode
     solaar
     python313Full
     awscli
@@ -147,6 +152,17 @@
     toybox
     usbutils
     pciutils
+  ];
+  fonts.packages = with pkgs; [
+    noto-fonts
+    noto-fonts-cjk-sans
+    noto-fonts-emoji
+    liberation_ttf
+    fira-code
+    fira-code-symbols
+    mplus-outline-fonts.githubRelease
+    dina-font
+    proggyfonts
   ];
 
 

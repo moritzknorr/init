@@ -1,31 +1,39 @@
-/*
- * A basic, simple wofi style.css
- */
-
-window {
-    background-color: #2e3440;
-    border: 2px solid #81a1c1;
-    border-radius: 10px;
+#input {
+    margin: 5px;
+    border: none;
+    color: rgba(216, 222, 233, 1);
+    background-color: rgba(30, 30, 30, 1);
 }
 
-#input {
-    background-color: #3b4252;
-    color: #eceff4;
+#inner-box {
+    margin: 5px;
     border: none;
-    border-bottom: 2px solid #81a1c1;
-    padding: 5px;
+    background-color: rgba(30, 30, 30, 1);
+}
+
+#outer-box {
+    margin: 5px;
+    border: none;
+    background-color: rgba(30, 30, 30, 1);
 }
 
 #scroll {
-    margin-top: 10px;
+    margin: 0px;
+    border-color: rgba(30, 30, 30, 1);
 }
 
-#entry {
-    padding: 5px;
-    color: #d8dee9;
+#text {
+    margin: 5px;
+    border: none;
+    color: rgba(196, 196, 196, 1);
 }
 
 #entry:selected {
-    background-color: #81a1c1;
-    color: #2e3440;
+    background-color: rgba(30, 30, 30, 1);
+}
+
+/* Add rounded corners to the Wofi window */
+window {
+    background-color: rgba(20, 20, 20, 0.2);
+    border-radius: 10px; /* 10px radius for rounded corners */
 }
