@@ -144,6 +144,7 @@
     git
     vim
     jq
+    nodejs_24
     # Screenshot tools
     satty
     slurp
@@ -169,6 +170,7 @@
       boto3
       pyyaml
       pyzipper
+      httpserver
     ]))
   ];
   fonts.packages = with pkgs; [
@@ -182,6 +184,11 @@
     dina-font
     proggyfonts
   ];
+
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 80 8000 8080 3000 ];
+  };
 
 
   # This value determines the NixOS release from which the default

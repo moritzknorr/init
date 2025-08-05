@@ -19,6 +19,9 @@ shopt -s histappend
 HISTSIZE=1000
 HISTFILESIZE=2000
 
+# set term, this should work for tmux
+export TERM=screen-256color
+
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
@@ -134,4 +137,6 @@ if command -v tmux &> /dev/null && [ -z "$TMUX" ] && [ "$TERM_PROGRAM" != "vscod
 fi
 
 EDITOR="/usr/bin/vim"
-export TERM=screen-256color
+
+# Add .local/bin to PATH for claude-code
+export PATH="~/.local/bin:$PATH"
