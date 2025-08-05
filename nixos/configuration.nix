@@ -77,7 +77,7 @@
   users.users.knorr = {
     isNormalUser = true;
     description = "Moritz Knorr";
-    extraGroups = [ "wheel" "networkmanager" "video" "audio" "lp" "uinput" "seat" "input" ];
+    extraGroups = [ "wheel" "networkmanager" "video" "audio" "lp" "uinput" "seat" "input" "docker"];
     shell = pkgs.bash;
   };
   security.sudo.extraRules = [
@@ -108,6 +108,13 @@
     thunar-volman
   ];
 
+  # Docker
+  virtualisation.docker.enable = true;
+  virtualisation.docker.rootless = {
+    enable = true;
+    setSocketVariable = true;
+  };  
+
   # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
     # Hyprland ecosystem
@@ -128,7 +135,6 @@
     yazi
     # Applications
     solaar
-    python313Full
     awscli
     zip
     # Terminal tools
@@ -153,6 +159,17 @@
     toybox
     usbutils
     pciutils
+    # Basic Python environment
+    (python313.withPackages (ps: with ps; [
+      python-dotenv
+      requests
+      tqdm
+      numpy
+      pandas
+      boto3
+      pyyaml
+      pyzipper
+    ]))
   ];
   fonts.packages = with pkgs; [
     noto-fonts
