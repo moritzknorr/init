@@ -33,3 +33,67 @@ window#waybar {
 #clock {
     padding: 0 10px;
 }
+
+/* System monitoring modules */
+#disk,
+#pulseaudio,
+#bluetooth,
+#cpu,
+#memory,
+#temperature,
+#network {
+    padding: 0 8px;
+    margin: 0 2px;
+    border-radius: 3px;
+}
+
+#cpu {
+    background-color: rgba(136, 192, 208, 0.2);
+    color: #88c0d0;
+}
+
+#memory {
+    background-color: rgba(163, 190, 140, 0.2);
+    color: #a3be8c;
+}
+
+#temperature {
+    background-color: rgba(235, 203, 139, 0.2);
+    color: #ebcb8b;
+}
+
+#temperature.critical {
+    background-color: rgba(191, 97, 106, 0.3);
+    color: #bf616a;
+}
+
+#network {
+    background-color: rgba(180, 142, 173, 0.2);
+    color: #b48ead;
+}
+
+#disk {
+    background-color: rgba(229, 192, 123, 0.2);
+    color: #e5c07b;
+}
+
+#pulseaudio {
+    background-color: rgba(152, 195, 121, 0.2);
+    color: #98c379;
+}
+
+#bluetooth {
+    background-color: rgba(97, 175, 239, 0.2);
+    color: #61afef;
+}
+
+/* Launcher icons styling */
+#custom-launcher,
+#custom-chrome,
+#custom-files,
+#custom-whatsapp,
+#custom-terminal,
+#custom-vscode {
+    padding: 0 8px;
+    margin: 0 10px;
+}

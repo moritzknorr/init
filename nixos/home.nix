@@ -40,6 +40,7 @@
   home.file.".config/hypr/hyprland.conf" = { source = ../desktop_environment/hyprland.conf; force = true; };
   home.file.".config/hypr/hyprlock.conf" = { source = ../desktop_environment/hyprlock.conf; force = true; };
   home.file.".config/hypr/hyprpaper.conf" = { source = ../desktop_environment/hyprpaper.conf; force = true; };
+  home.file.".config/wofi/wofi.conf" = { source = ../desktop_environment/wofi.conf; force = true; };
   home.file.".config/wofi/style.css" = { source = ../desktop_environment/wofi_style.css; force = true; };
   home.file.".config/waybar/config" = { source = ../desktop_environment/waybar.config; force = true; };
   home.file.".config/waybar/style.css" = { source = ../desktop_environment/waybar.css; force = true; };
