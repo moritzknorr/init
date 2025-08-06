@@ -135,6 +135,8 @@
     pavucontrol
     blueman
     kitty
+    # Office
+    libreoffice-qt
     # File managers
     yazi
     # Applications
