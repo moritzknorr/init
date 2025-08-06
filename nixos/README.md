@@ -1,3 +1,6 @@
+# Switch
+`sudo nixos-rebuild switch --flake './init/nixos/.#'
+
 # Alternatives
 - OS: **Linux**, Windows, MacOS, ChromeOS
 - Distro: **nixos**, arch, ubuntu
