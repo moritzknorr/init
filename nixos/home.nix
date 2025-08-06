@@ -31,21 +31,21 @@
   # home.file.".bash_profile" = { source = ../desktop_environment/bash_profile.bash_profile; force = true; };
 
   # Add dotfiles from ../config
-  home.file.".bashrc" = { source = ../config/bashrc.bashrc; force = true; };
-  home.file.".gitconfig" = { source = ../config/gitconfig.gitconfig; force = true; };
-  home.file.".tmux.conf" = { source = ../config/tmux.tmux.conf; force = true; };
-  home.file.".vimrc" = { source = ../config/vimrc.vimrc; force = true; };
+  home.file.".bashrc" = { source = /home/knorr/init/config/bashrc.bashrc; force = true; };
+  home.file.".gitconfig" = { source = /home/knorr/init/config/gitconfig.gitconfig; force = true; };
+  home.file.".tmux.conf" = { source = /home/knorr/init/config/tmux.tmux.conf; force = true; };
+  home.file.".vimrc" = { source = /home/knorr/init/config/vimrc.vimrc; force = true; };
 
   # Add desktop environment configs from ../desktop_environment/
-  home.file.".config/hypr/hyprland.conf" = { source = ../desktop_environment/hyprland.conf; force = true; };
-  home.file.".config/hypr/hyprlock.conf" = { source = ../desktop_environment/hyprlock.conf; force = true; };
-  home.file.".config/hypr/hyprpaper.conf" = { source = ../desktop_environment/hyprpaper.conf; force = true; };
-  home.file.".config/wofi/wofi.conf" = { source = ../desktop_environment/wofi.conf; force = true; };
-  home.file.".config/wofi/style.css" = { source = ../desktop_environment/wofi_style.css; force = true; };
-  home.file.".config/waybar/config" = { source = ../desktop_environment/waybar.config; force = true; };
-  home.file.".config/waybar/style.css" = { source = ../desktop_environment/waybar.css; force = true; };
-  home.file.".config/kitty/kitty.conf" = { source = ../desktop_environment/kitty.conf; force = true; };
-  home.file.".config/solaar/config.yaml" = { source = ../desktop_environment/solaar.config.yaml; force = true; };
+  home.file.".config/hypr/hyprland.conf" = { source = /home/knorr/init/desktop_environment/hyprland.conf; force = true; };
+  home.file.".config/hypr/hyprlock.conf" = { source = /home/knorr/init/desktop_environment/hyprlock.conf; force = true; };
+  home.file.".config/hypr/hyprpaper.conf" = { source = /home/knorr/init/desktop_environment/hyprpaper.conf; force = true; };
+  home.file.".config/wofi/wofi.conf" = { source = /home/knorr/init/desktop_environment/wofi.conf; force = true; };
+  home.file.".config/wofi/style.css" = { source = /home/knorr/init/desktop_environment/wofi_style.css; force = true; };
+  home.file.".config/waybar/config" = { source = /home/knorr/init/desktop_environment/waybar.config; force = true; };
+  home.file.".config/waybar/style.css" = { source = /home/knorr/init/desktop_environment/waybar.css; force = true; };
+  home.file.".config/kitty/kitty.conf" = { source = /home/knorr/init/desktop_environment/kitty.conf; force = true; };
+  home.file.".config/solaar/config.yaml" = { source = /home/knorr/init/desktop_environment/solaar.config.yaml; force = true; };
 
 
   # Set default browser
