@@ -28,7 +28,7 @@
   # home.file.".ssh/authorized_keys" = { text = builtins.readFile ../authorized_keys; force = true; mode = "0600"; };
 
   # Add bash_profile to parse .bashrc
-  home.file.".bash_profile" = { source = ../desktop_environment/bash_profile.bash_profile; force = true; };
+  # home.file.".bash_profile" = { source = ../desktop_environment/bash_profile.bash_profile; force = true; };
 
   # Add dotfiles from ../config
   home.file.".bashrc" = { source = ../config/bashrc.bashrc; force = true; };

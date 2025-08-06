@@ -171,6 +171,9 @@
       pyyaml
       pyzipper
       httpserver
+      gql
+      requests_toolbelt
+      pydantic
     ]))
   ];
   fonts.packages = with pkgs; [
