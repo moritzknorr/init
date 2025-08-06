@@ -1,5 +1,5 @@
 # Switch
-`sudo nixos-rebuild switch --flake './init/nixos/.#'
+`sudo nixos-rebuild switch --flake './init/nixos/#NZXT`
 
 # Alternatives
 - OS: **Linux**, Windows, MacOS, ChromeOS
