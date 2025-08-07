@@ -91,3 +91,6 @@ Extract backup: `rm -rf ~/.config/xfce4/ && tar -xvf xfce4.tar.gz && mv xfce4 ~/
 
 # Disable bluetooth on startup
 `sudo sed -i 's/AutoEnable=true/AutoEnable=false/g' /etc/bluetooth/main.conf`
+
+# find out list of fonts to use in linux
+`fc-list : family | grep -i JetBrains`

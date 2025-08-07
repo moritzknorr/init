@@ -155,6 +155,7 @@
     satty
     slurp
     grim
+    geeqie
     # Tools to monitor wayland
     wev
     # Nvidia Tools
@@ -183,6 +184,7 @@
     ]))
   ];
   fonts.packages = with pkgs; [
+    nerd-fonts.jetbrains-mono
     noto-fonts
     noto-fonts-cjk-sans
     noto-fonts-emoji

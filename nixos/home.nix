@@ -24,11 +24,12 @@
     spotify
   ];
 
-  # Add authorized keys does not work
-  # home.file.".ssh/authorized_keys" = { text = builtins.readFile ../authorized_keys; force = true; mode = "0600"; };
+  ## Add authorized keys does not work
+  ## home.file.".ssh/authorized_keys" = { text = builtins.readFile /home/knorr/init/authorized_keys; force = true; mode = "0600"; };
 
-  # Add bash_profile to parse .bashrc
-  # home.file.".bash_profile" = { source = ../desktop_environment/bash_profile.bash_profile; force = true; };
+  ## Add bash_profile to parse .bashrc
+  ## This causes more problems than it solves
+  ## home.file.".bash_profile" = { source = /home/knorr/init/desktop_environment/bash_profile.bash_profile; force = true; };
 
   # Add dotfiles from ../config
   home.file.".bashrc" = { source = /home/knorr/init/config/bashrc.bashrc; force = true; };
@@ -36,17 +37,12 @@
   home.file.".tmux.conf" = { source = /home/knorr/init/config/tmux.tmux.conf; force = true; };
   home.file.".vimrc" = { source = /home/knorr/init/config/vimrc.vimrc; force = true; };
 
-  # Add desktop environment configs from ../desktop_environment/
-  home.file.".config/hypr/hyprland.conf" = { source = /home/knorr/init/desktop_environment/hyprland.conf; force = true; };
-  home.file.".config/hypr/hyprlock.conf" = { source = /home/knorr/init/desktop_environment/hyprlock.conf; force = true; };
-  home.file.".config/hypr/hyprpaper.conf" = { source = /home/knorr/init/desktop_environment/hyprpaper.conf; force = true; };
-  home.file.".config/wofi/wofi.conf" = { source = /home/knorr/init/desktop_environment/wofi.conf; force = true; };
-  home.file.".config/wofi/style.css" = { source = /home/knorr/init/desktop_environment/wofi_style.css; force = true; };
-  home.file.".config/waybar/config" = { source = /home/knorr/init/desktop_environment/waybar.config; force = true; };
-  home.file.".config/waybar/style.css" = { source = /home/knorr/init/desktop_environment/waybar.css; force = true; };
-  home.file.".config/kitty/kitty.conf" = { source = /home/knorr/init/desktop_environment/kitty.conf; force = true; };
-  home.file.".config/solaar/config.yaml" = { source = /home/knorr/init/desktop_environment/solaar.config.yaml; force = true; };
-
+  ## Add desktop environment configs from ../desktop_environment/
+  home.file.".config/hypr" = { source = /home/knorr/init/desktop_environment/hypr; recursive = true; force = true; };
+  home.file.".config/wofi" = { source = /home/knorr/init/desktop_environment/wofi; recursive = true; force = true; };
+  home.file.".config/waybar" = { source = /home/knorr/init/desktop_environment/waybar; recursive = true; force = true; };
+  home.file.".config/kitty" = { source = /home/knorr/init/desktop_environment/kitty; recursive = true; force = true; };
+  home.file.".config/solaar" = { source = /home/knorr/init/desktop_environment/solaar; recursive = true; force = true; };
 
   # Set default browser
   xdg.mimeApps.defaultApplications = {
