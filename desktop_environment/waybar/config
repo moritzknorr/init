@@ -1,0 +1,152 @@
+{    
+
+    "layer": "top",
+    "position": "top",
+    "height": 40,
+    "margin-top": 8,
+
+    "modules-left": ["custom/launcher", "custom/chrome", "custom/files", "custom/whatsapp", "custom/terminal", "custom/vscode", "hyprland/workspaces", "hyprland/window"],
+    "modules-center": [],
+    "modules-right": ["pulseaudio", "bluetooth", "cpu", "memory", "disk", "temperature", "network", "clock"],
+
+    "hyprland/workspaces": {
+        "persistent-workspaces": {
+            "1": [],
+            "2": [],
+            "3": [],
+            "4": [],
+            "5": [],
+            "6": [],
+            "7": [],
+            "8": [],
+            "9": [],
+            "10": []
+        },
+        "format": "{icon}",
+        "format-icons": {
+            "default": "○",
+            "active": "●",
+            "persistent": "○"
+        }
+    },
+    "hyprland/window": {
+        "format": "{}",
+        "rewrite": {
+            "(.*) - Mozilla Firefox": "🌎 $1",
+            "(.*) - zsh": "> [$1]"
+        }
+    },
+
+    "custom/launcher": {
+        "format": " ",
+        "on-click": "wofi --show drun",
+        "tooltip": "Application Launcher (Super+Space)"
+    },
+
+    "custom/chrome": {
+        "format": " ",
+        "on-click": "hyprctl dispatch exec '[workspace 1] google-chrome-stable'",
+        "tooltip": "Chrome (Super+1)"
+    },
+    
+    "custom/files": {
+        "format": " ",
+        "on-click": "hyprctl dispatch exec '[workspace 2] thunar'",
+        "tooltip": "File Manager (Super+2)"
+    },
+    
+    "custom/whatsapp": {
+        "format": " ",
+        "on-click": "hyprctl dispatch exec '[workspace 3] whatsapp-for-linux'",
+        "tooltip": "WhatsApp (Super+3)"
+    },
+    
+    "custom/terminal": {
+        "format": " ",
+        "on-click": "hyprctl dispatch exec '[workspace 4] kitty'",
+        "tooltip": "Terminal (Super+4)"
+    },
+    
+    "custom/vscode": {
+        "format": " ",
+        "on-click": "hyprctl dispatch exec '[workspace 5] code'",
+        "tooltip": "VSCode (Super+5)"
+    },
+
+    "disk": {
+        "format": "💾 {percentage_used}%",
+        "tooltip": true,
+        "tooltip-format": "Disk Usage: {used} / {total} ({percentage_used}%)\nFree: {free}\nPath: {path}",
+        "path": "/",
+        "interval": 30
+    },
+
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": "🔇 {volume}%",
+        "format-icons": {
+            "headphone": "🎧",
+            "hands-free": "🎤",
+            "headset": "🎧",
+            "phone": "📱",
+            "portable": "📱",
+            "car": "🚗",
+            "default": ["🔈", "🔉", "🔊"]
+        },
+        "tooltip": true,
+        "tooltip-format": "Volume: {volume}%\nDevice: {desc}",
+        "on-click": "pavucontrol",
+        "scroll-step": 5
+    },
+
+    "bluetooth": {
+        "format": "🔵 {status}",
+        "format-disabled": "🔴 Off",
+        "format-off": "🔴 Off",
+        "format-on": "🔵 On",
+        "format-connected": "🔵 {num_connections}",
+        "tooltip": true,
+        "tooltip-format": "Bluetooth: {status}\nConnected devices: {num_connections}",
+        "tooltip-format-connected": "Bluetooth: {status}\nConnected:\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "• {device_alias} ({device_battery_percentage}%)",
+        "on-click": "blueman-manager"
+    },
+
+    "cpu": {
+        "format": "💻 {usage}%",
+        "tooltip": true,
+        "tooltip-format": "CPU Usage: {usage}%\nLoad: {load}",
+        "interval": 2
+    },
+
+    "memory": {
+        "format": "🧠 {percentage}%",
+        "tooltip": true,
+        "tooltip-format": "Memory: {used:0.1f}G/{total:0.1f}G ({percentage}%)\nSwap: {swapUsed:0.1f}G/{swapTotal:0.1f}G",
+        "interval": 5
+    },
+
+    "temperature": {
+        "format": "🌡️ {temperatureC}°C",
+        "tooltip": true,
+        "tooltip-format": "Temperature: {temperatureC}°C ({temperatureF}°F)",
+        "critical-threshold": 80,
+        "format-critical": "🔥 {temperatureC}°C",
+        "interval": 5
+    },
+
+    "network": {
+        "format-wifi": "📶 {signalStrength}%",
+        "format-ethernet": "🌐 {ipaddr}",
+        "format-disconnected": "❌ Disconnected",
+        "tooltip": true,
+        "tooltip-format": "Interface: {ifname}\nIP: {ipaddr}\nUp: {bandwidthUpBits}\nDown: {bandwidthDownBits}",
+        "tooltip-format-wifi": "Network: {essid} ({signalStrength}%)\nIP: {ipaddr}\nFrequency: {frequency}MHz\nUp: {bandwidthUpBits}\nDown: {bandwidthDownBits}",
+        "interval": 5
+    },
+
+    "clock": {
+        "format": "{:%A, %Y-%m-%d, %H:%M:%S}",
+        "tooltip-format": "<big>{:%Y-%m-%d}</big>\n<tt>{calendar}</tt>"
+    },
+}

@@ -156,6 +156,7 @@
     # Hyprland ecosystem
     waybar
     wofi
+    wofi-emoji
     hyprpaper
     hyprlock
     mako

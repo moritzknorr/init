@@ -1,0 +1,148 @@
+/* ===== GLOBAL STYLES ===== */
+
+* {
+    font-family: "JetBrainsMono Nerd Font Mono", sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+window#waybar {
+    background-color: transparent;
+}
+
+/* ===== WAYBAR MODULES ===== */
+#custom-launcher,
+#custom-chrome,
+#custom-files,
+#custom-whatsapp,
+#custom-terminal,
+#custom-vscode,
+#disk,
+#pulseaudio,
+#bluetooth,
+#cpu,
+#memory,
+#temperature,
+#network,
+#clock {
+    padding: 8px 12px;
+    margin: 0 4px;
+    border-radius: 20px;
+    background-color: transparent;
+    color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-width: 40px;
+    transition: all 0.3s ease;
+}
+
+#custom-launcher:hover,
+#custom-chrome:hover,
+#custom-files:hover,
+#custom-whatsapp:hover,
+#custom-terminal:hover,
+#custom-vscode:hover,
+#disk:hover,
+#pulseaudio:hover,
+#bluetooth:hover,
+#cpu:hover,
+#memory:hover,
+#temperature:hover,
+#network:hover,
+#clock:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+/* ===== WORKSPACES ===== */
+#workspaces {
+    background-color: transparent;
+    margin: 0 8px;
+}
+
+#workspaces button {
+    padding: 8px 12px;
+    margin: 0 2px;
+    border-radius: 20px;
+    background-color: transparent;
+    color: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-width: 40px;
+    font-family: "JetBrainsMono Nerd Font Mono", sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+#workspaces button:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#workspaces button.active {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+#workspaces button.urgent {
+    background-color: rgba(255, 100, 100, 0.1);
+    color: rgba(255, 150, 150, 1);
+    border: 1px solid rgba(255, 100, 100, 0.3);
+    animation: pulse 2s infinite;
+}
+
+/* ===== SPECIAL MODULE STATES ===== */
+#temperature.critical {
+    color: rgba(255, 150, 150, 1);
+    border: 1px solid rgba(255, 100, 100, 0.3);
+}
+
+#clock {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 600;
+}
+
+/* ===== ICON MODULES ===== */
+#custom-launcher,
+#custom-files,
+#custom-chrome,
+#custom-terminal,
+#custom-whatsapp,
+#custom-vscode {
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    border-radius: 50%;
+    padding: 0;
+    margin: 0 4px;
+    transition: all 0.3s ease;
+}
+
+#custom-launcher:hover,
+#custom-files:hover,
+#custom-chrome:hover,
+#custom-terminal:hover,
+#custom-whatsapp:hover,
+#custom-vscode:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+/* Icon URLs */
+#custom-launcher { background-image: url("icon_launcher.png"); }
+#custom-files { background-image: url("icon_files.png"); }
+#custom-chrome { background-image: url("logo_chrome.png"); }
+#custom-terminal { background-image: url("icon_terminal.png"); }
+#custom-whatsapp { background-image: url("logo_whatsapp.png"); }
+#custom-vscode { background-image: url("logo_vscode.png"); }
+
+/* ===== ANIMATIONS ===== */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
