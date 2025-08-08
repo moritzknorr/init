@@ -53,7 +53,39 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+    jack.enable = true;
   };
+
+  ## START: fix for Bose QC 700
+  services.pipewire.extraConfig.pipewire."99-bt-quantum" = {
+    "context.properties" = {
+        "default.clock.rate" = 48000;
+        "default.clock.quantum" = 4096; # try 1024 first; go to 2048 if needed
+        "default.clock.min-quantum" = 1024;
+        "default.clock.max-quantum" = 4096;
+    };
+  };
+  services.pipewire.wireplumber.enable = true;
+  services.pipewire.wireplumber.extraConfig."10-bluez" = {
+    "monitor.bluez.properties" = {
+      "bluez5.enable-sbc-xq" = true;
+      "bluez5.enable-aac" = false;
+      "bluez5.codectypes" = [ "aac" ];   # start with sbc; add/remove aac to test
+      "bluez5.headset-roles" = [ "hsp_hs" "hfp_hf" ];
+      # Optional: prefer A2DP and don't autograb HFP
+      "bluez5.autoswitch-to-headset-profile" = false;
+    };
+  };
+  powerManagement.cpuFreqGovernor = "performance";
+  hardware.bluetooth.settings = {
+    General = {
+      ControllerMode = "bredr";   # Classic only; disables BLE on the adapter
+    };
+  };
+  boot.extraModprobeConfig = ''
+    options bluetooth disable_ertm=y
+  '';
+  ## END: fix for Bose QC 700
 
   # Graphics Drivers
   services.xserver.videoDrivers = [ "nvidia" ];
