@@ -187,9 +187,15 @@
       webdriver-manager
       undetected-chromedriver
       openpyxl
+      weasyprint
+      jinja2
+      jupyter-core
+      notebook
     ]))
   ];
   fonts.packages = with pkgs; [
+    open-sans
+    encode-sans
     nerd-fonts.jetbrains-mono
     noto-fonts
     noto-fonts-cjk-sans

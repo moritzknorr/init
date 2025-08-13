@@ -116,7 +116,7 @@
         "format": "💻 {usage}%",
         "tooltip": true,
         "tooltip-format": "CPU Usage: {usage}%\nLoad: {load}",
-        "interval": 2
+        "interval": 5
     },
 
     "memory": {
