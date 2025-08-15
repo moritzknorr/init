@@ -7,7 +7,7 @@
 
     "modules-left": ["custom/launcher", "custom/chrome", "custom/files", "custom/whatsapp", "custom/terminal", "custom/vscode", "hyprland/workspaces", "hyprland/window"],
     "modules-center": [],
-    "modules-right": ["pulseaudio", "bluetooth", "cpu", "memory", "disk", "temperature", "network", "clock"],
+    "modules-right": ["pulseaudio", "bluetooth", "cpu", "memory", "disk", "temperature", "network", "custom/weather", "clock"],
 
     "hyprland/workspaces": {
         "persistent-workspaces": {
@@ -71,6 +71,13 @@
         "format": " ",
         "on-click": "hyprctl dispatch exec '[workspace 5] code'",
         "tooltip": "VSCode (Super+5)"
+    },
+
+    "custom/weather": {
+        "format": "{}",
+        "interval": 10,
+        "exec": "/home/knorr/init/desktop_environment/waybar/waybar-wttr.py",
+        "return-type": "json"
     },
 
     "disk": {
@@ -147,6 +154,14 @@
 
     "clock": {
         "format": "{:%A, %Y-%m-%d, %H:%M:%S}",
+        "calendar": {
+            "mode": "year",
+            "mode-mon-col": 3,
+            "weeks-pos": "right",
+            "format": {
+                "today": "<span color='#ff6c6b'><b><u>{}</u></b></span>"
+            }
+        },
         "tooltip-format": "<big>{:%Y-%m-%d}</big>\n<tt>{calendar}</tt>"
     },
 }
