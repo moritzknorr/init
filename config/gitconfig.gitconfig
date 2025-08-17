@@ -6,3 +6,4 @@
 	editor = vi
 [web]
 	browser = google-chrome
+pull.rebase = false

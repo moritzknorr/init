@@ -73,7 +73,7 @@
   # Enable SSH Server
   services.openssh = {
     enable = true;
-    settings.PasswordAuthentication = true;
+    settings.PasswordAuthentication = false;
     settings.KbdInteractiveAuthentication = false;
     settings.PermitRootLogin = "no";
   };

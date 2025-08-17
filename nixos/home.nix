@@ -20,7 +20,7 @@
   # The star of the show. You can configure anything you want here.
   home.packages = with pkgs; [
     google-chrome
-    vscode
+    vscode.fhs
     spotify
   ];
 
