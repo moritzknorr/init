@@ -54,7 +54,7 @@ window#waybar {
 #network:hover,
 #clock:hover {
     background-color: #3a3a3a;
-    border-bottom: 3px solid #6366f1;
+    border-bottom: 3px solid #292929;
     color: #ffffff;
 }
 
@@ -87,7 +87,7 @@ window#waybar {
 }
 
 #workspaces button.active {
-    background-color: #6366f1;
+    background-color: #d3d3d3;
     color: #ffffff;
 }
 
@@ -102,13 +102,6 @@ window#waybar {
     background-color: #ef4444;
     border-bottom: 3px solid #dc2626;
     color: #ffffff;
-}
-
-#clock {
-    background-color: #6366f1;
-    border-bottom: 3px solid #4f46e5;
-    color: #ffffff;
-    font-weight: 600;
 }
 
 /* ===== ICON MODULES ===== */
