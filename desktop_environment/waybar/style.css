@@ -9,6 +9,7 @@
 window#waybar {
     background-color: #1a1a1a;
     border-bottom: 1px solid #2a2a2a;
+    padding: 15px 0;
 }
 
 /* ===== WAYBAR MODULES ===== */
@@ -128,7 +129,12 @@ window#waybar {
 #custom-whatsapp:hover,
 #custom-vscode:hover {
     background-color: #3a3a3a;
-    border-bottom: 3px solid #6366f1;
+    border-bottom: 3px solid #d3d3d3;
+}
+
+#clock {
+    background-color: #d3d3d3;
+    color: black;
 }
 
 /* Icon URLs */

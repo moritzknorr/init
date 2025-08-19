@@ -4,6 +4,8 @@
     "position": "top",
     "height": 40,
     "margin-top": 0,
+    "margin-left": 10,
+    "margin-right": 10,
 
     "modules-left": ["custom/launcher", "custom/chrome", "custom/files", "custom/whatsapp", "custom/terminal", "custom/vscode", "hyprland/workspaces", "hyprland/window"],
     "modules-center": [],
