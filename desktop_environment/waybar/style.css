@@ -7,7 +7,8 @@
 }
 
 window#waybar {
-    background-color: transparent;
+    background-color: #1a1a1a;
+    border-bottom: 1px solid #2a2a2a;
 }
 
 /* ===== WAYBAR MODULES ===== */
@@ -25,15 +26,16 @@ window#waybar {
 #memory,
 #temperature,
 #network,
-#clock {
-    padding: 8px 12px;
-    margin: 0 4px;
-    border-radius: 20px;
-    background-color: transparent;
-    color: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+#clock,
+#window {
+    padding: 8px 16px;
+    margin: 0 2px;
+    background-color: #2a2a2a;
+    color: #e5e5e5;
+    border: none;
+    border-bottom: 3px solid #4a4a4a;
     min-width: 40px;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
 }
 
 #custom-launcher:hover,
@@ -42,6 +44,7 @@ window#waybar {
 #custom-whatsapp:hover,
 #custom-terminal:hover,
 #custom-vscode:hover,
+#custom-weather:hover,
 #disk:hover,
 #pulseaudio:hover,
 #bluetooth:hover,
@@ -50,60 +53,61 @@ window#waybar {
 #temperature:hover,
 #network:hover,
 #clock:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: rgba(255, 255, 255, 1);
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+    background-color: #3a3a3a;
+    border-bottom: 3px solid #6366f1;
+    color: #ffffff;
 }
 
 /* ===== WORKSPACES ===== */
 #workspaces {
-    background-color: transparent;
-    margin: 0 8px;
+    background-color: #2a2a2a;
+    margin: 0 4px;
+    border-bottom: 3px solid #4a4a4a;
+    padding: 2px;
 }
 
 #workspaces button {
-    padding: 8px 12px;
-    margin: 0 2px;
-    border-radius: 20px;
+    padding: 6px 12px;
+    margin: 0 1px;
+    border-radius: 0px;
     background-color: transparent;
-    color: rgba(255, 255, 255, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    min-width: 40px;
-    font-family: "JetBrainsMono Nerd Font Mono", sans-serif;
-    font-size: 11px;
-    font-weight: 600;
-    transition: all 0.3s ease;
+    color: #999999;
+    border: none;
+    min-width: 32px;
+    transition: all 0.2s ease;
+}
+
+#workspace button:nth-child(5) {
+    border: 1px solid red;
 }
 
 #workspaces button:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-    color: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: #3a3a3a;
+    color: #e5e5e5;
 }
 
 #workspaces button.active {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    background-color: #6366f1;
+    color: #ffffff;
 }
 
 #workspaces button.urgent {
-    background-color: rgba(255, 100, 100, 0.1);
-    color: rgba(255, 150, 150, 1);
-    border: 1px solid rgba(255, 100, 100, 0.3);
+    background-color: #ef4444;
+    color: #ffffff;
     animation: pulse 2s infinite;
 }
 
 /* ===== SPECIAL MODULE STATES ===== */
 #temperature.critical {
-    color: rgba(255, 150, 150, 1);
-    border: 1px solid rgba(255, 100, 100, 0.3);
+    background-color: #ef4444;
+    border-bottom: 3px solid #dc2626;
+    color: #ffffff;
 }
 
 #clock {
-    color: rgba(255, 255, 255, 0.9);
+    background-color: #6366f1;
+    border-bottom: 3px solid #4f46e5;
+    color: #ffffff;
     font-weight: 600;
 }
 
@@ -114,13 +118,14 @@ window#waybar {
 #custom-terminal,
 #custom-whatsapp,
 #custom-vscode {
-    background-size: 20px 20px;
+    background-size: 18px 18px;
     background-repeat: no-repeat;
     background-position: center center;
-    border-radius: 50%;
-    padding: 0;
-    margin: 0 4px;
-    transition: all 0.3s ease;
+    padding: 10px;
+    margin: 0 2px;
+    min-width: 36px;
+    min-height: 20px;
+    transition: all 0.2s ease;
 }
 
 #custom-launcher:hover,
@@ -129,8 +134,8 @@ window#waybar {
 #custom-terminal:hover,
 #custom-whatsapp:hover,
 #custom-vscode:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    background-color: #3a3a3a;
+    border-bottom: 3px solid #6366f1;
 }
 
 /* Icon URLs */

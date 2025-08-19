@@ -38,13 +38,13 @@
   home.file.".vimrc" = { source = /home/knorr/init/config/vimrc.vimrc; force = true; };
 
   ## Add desktop environment configs from ../desktop_environment/
-  home.file.".config/hypr" = { source = /home/knorr/init/desktop_environment/hypr; recursive = true; force = true; };
-  home.file.".config/wofi" = { source = /home/knorr/init/desktop_environment/wofi; recursive = true; force = true; };
-  home.file.".config/waybar" = { source = /home/knorr/init/desktop_environment/waybar; recursive = true; force = true; };
-  home.file.".config/kitty" = { source = /home/knorr/init/desktop_environment/kitty; recursive = true; force = true; };
-  home.file.".config/solaar" = { source = /home/knorr/init/desktop_environment/solaar; recursive = true; force = true; };
+  home.file.".config/hypr" = { source = config.lib.file.mkOutOfStoreSymlink "/home/knorr/init/desktop_environment/hypr/"; };
+  home.file.".config/waybar" = { source = config.lib.file.mkOutOfStoreSymlink "/home/knorr/init/desktop_environment/waybar/"; };
+  home.file.".config/wofi" = { source = config.lib.file.mkOutOfStoreSymlink "/home/knorr/init/desktop_environment/wofi/"; };
+  home.file.".config/kitty" = { source = config.lib.file.mkOutOfStoreSymlink "/home/knorr/init/desktop_environment/kitty/"; };
+  home.file.".config/solaar" = { source = config.lib.file.mkOutOfStoreSymlink "/home/knorr/init/desktop_environment/solaar/"; };
 
-  # Set default browser
+# Set default browser
   xdg.mimeApps.defaultApplications = {
     "text/html" = "google-chrome.desktop";
     "x-scheme-handler/http" = "google-chrome.desktop";
