@@ -145,6 +145,7 @@
     solaar
     awscli
     zip
+    feh
     # Terminal tools
     htop
     btop
@@ -153,6 +154,7 @@
     vim
     jq
     nodejs_24
+    poppler-utils
     # Screenshot tools
     satty
     slurp
@@ -191,6 +193,9 @@
       jinja2
       jupyter-core
       notebook
+      qrcode
+      lxml
+      pypdf
     ]))
   ];
   fonts.packages = with pkgs; [
