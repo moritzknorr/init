@@ -22,6 +22,7 @@
     google-chrome
     vscode.fhs
     spotify
+    vlc
   ];
 
   ## Add authorized keys does not work

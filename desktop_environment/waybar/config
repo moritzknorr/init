@@ -4,8 +4,8 @@
     "position": "top",
     "height": 40,
     "margin-top": 0,
-    "margin-left": 10,
-    "margin-right": 10,
+    "margin-left": 0,
+    "margin-right": 0,
 
     "modules-left": ["custom/launcher", "custom/chrome", "custom/files", "custom/whatsapp", "custom/terminal", "custom/vscode", "hyprland/workspaces", "hyprland/window"],
     "modules-center": [],
@@ -161,7 +161,8 @@
             "mode-mon-col": 3,
             "weeks-pos": "right",
             "format": {
-                "today": "<span color='#ff6c6b'><b><u>{}</u></b></span>"
+                "today": "<span color='#ff6c6b'><b><u>{}</u></b></span>",
+                "weeks": "<span color='grey'><i>{:%W}</i></span>"
             }
         },
         "tooltip-format": "<big>{:%Y-%m-%d}</big>\n<tt>{calendar}</tt>"

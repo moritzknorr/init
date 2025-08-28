@@ -124,7 +124,7 @@ alias rm='rm -i'
 alias less='less -N'
 
 # A better 'ls' (your 'll' is good, this one is an alternative)
-alias l='ls -lh' # List all files, human-readable sizes
+alias l='ls -lhtr' # List all files, human-readable sizes
 
 # Clear
 alias c='clear'

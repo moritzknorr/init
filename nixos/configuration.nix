@@ -196,6 +196,11 @@
       qrcode
       lxml
       pypdf
+      fastapi
+      psycopg2
+      asyncpg
+      sqlalchemy
+      sqlalchemy-utils
     ]))
   ];
   fonts.packages = with pkgs; [

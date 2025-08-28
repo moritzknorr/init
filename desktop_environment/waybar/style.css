@@ -132,11 +132,6 @@ window#waybar {
     border-bottom: 3px solid #d3d3d3;
 }
 
-#clock {
-    background-color: #d3d3d3;
-    color: black;
-}
-
 /* Icon URLs */
 #custom-launcher { background-image: url("icon_launcher.png"); }
 #custom-files { background-image: url("icon_files.png"); }
