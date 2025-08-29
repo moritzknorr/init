@@ -201,6 +201,7 @@
       asyncpg
       sqlalchemy
       sqlalchemy-utils
+      paramiko
     ]))
   ];
   fonts.packages = with pkgs; [

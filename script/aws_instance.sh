@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ENV="aventapharm"
+ENV="aventa"
 
 echo 'Available instance types: '
 echo 'ARM: t4g.small (2 Gb), t4g.large (16 Gb), t4g.2xlarge (32 Gb)'
@@ -20,7 +20,7 @@ fi
 
 read -p "Start ${TYPE} instance, type yes: " DO
 
-if [ ${ENV} = "aventa-dev" ]; then
+if [ ${ENV} = "aventa" ]; then
   SUBNETID=subnet-038cb2955e222a20b
   SECURITYGROUPID=sg-02c4d52f2203b0203
 elif [ ${ENV} = "aventa-prod" ]; then
