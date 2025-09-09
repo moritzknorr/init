@@ -139,4 +139,4 @@ fi
 EDITOR="/usr/bin/vim"
 
 # Add .local/bin to PATH for claude-code
-export PATH="~/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"

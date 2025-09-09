@@ -37,6 +37,9 @@
 
   # Hardware
   powerManagement.enable = false;
+  # Graphics
+  hardware.graphics.enable = true;
+  hardware.opengl.enable = true;
   # Enable uinput for solaar
   hardware.logitech.wireless.enable = true;
   hardware.uinput.enable = true;
@@ -61,6 +64,8 @@
   hardware.nvidia = {
     modesetting.enable = true;
     open = true;
+    powerManagement.enable = false;
+    nvidiaSettings = true;
   };
 
   # Enable envs to get the illusion of an old file system, otherwise "#!/bin/bash" does not work
@@ -129,6 +134,12 @@
     hyprpaper
     hyprlock
     mako
+    # Graphics
+    mesa
+    libva
+    libva-utils
+    vulkan-tools
+    egl-wayland
     # Clipboard
     cliphist
     wl-clipboard

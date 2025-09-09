@@ -4,5 +4,7 @@
 	username = moritzknorr
 [core]
 	editor = vi
+[pull]
+    rebase = false
 [web]
 	browser = google-chrome
