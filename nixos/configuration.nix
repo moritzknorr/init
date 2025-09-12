@@ -47,6 +47,9 @@
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
   services.blueman.enable = true;
+  
+  # Enable printing
+  services.printing.enable = true;
 
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
@@ -150,6 +153,7 @@
     kitty
     # Office
     libreoffice-qt
+    p7zip
     # File managers
     yazi
     # Applications
@@ -166,6 +170,7 @@
     jq
     nodejs_24
     poppler-utils
+    openssl
     # Screenshot tools
     satty
     slurp

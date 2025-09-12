@@ -44,6 +44,7 @@
     divert-gkeys, m-key-leds, mr-key-led, multiplatform, change-host, gesture2-gestures, gesture2-divert, gesture2-params]
   _battery: 7968
   _modelId: 000000000ABA
+  _sensitive: {hires-scroll-mode: ignore, hires-smooth-invert: ignore, hires-smooth-resolution: ignore}
   _unitId: FFFFFFFF
   adc_power_management: 30
   equalizer: {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0}
