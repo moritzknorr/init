@@ -66,14 +66,14 @@ export PS1="\t \[$(tput sgr0)\]\[\033[38;5;11m\]\u\[$(tput sgr0)\]\[\033[38;5;15
 export environ="$HOME/.ssh/environment"
 
 # Uncomment for machine with private key
-if [ -f "$environ" ]; then
-  . "$environ" >/dev/null
-fi
-if [ -z "$SSH_AUTH_SOCK" ] || ! ps -p "$SSH_AGENT_PID" | grep -q ssh-agent; then (umask 077; ssh-agent > "$environ")
-  . "$environ" >/dev/null
-  ssh-add $HOME/.ssh/$USER &> /dev/null
-  ssh-add $HOME/moritzknorr.pk &> /dev/null
-fi
+# if [ -f "$environ" ]; then
+#   . "$environ" >/dev/null
+# fi
+# if [ -z "$SSH_AUTH_SOCK" ] || ! ps -p "$SSH_AGENT_PID" | grep -q ssh-agent; then (umask 077; ssh-agent > "$environ")
+#   . "$environ" >/dev/null
+#   ssh-add $HOME/.ssh/$USER &> /dev/null
+#   ssh-add $HOME/moritzknorr.pk &> /dev/null
+# fi
 
 shopt -s no_empty_cmd_completion
 
@@ -104,7 +104,7 @@ getip() {
 }
 
 ## Nicer shell experience
-export GREP_OPTIONS="--color=auto"; # make grep colorful
+# export GREP_OPTIONS="--color=auto"; # make grep colorful, NOT SUPPORTED
 export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD; # make ls more colorful as well
 export HISTSIZE=32768; # Larger bash history (allow 32³ entries; default is 500)
 export HISTFILESIZE=$HISTSIZE;
