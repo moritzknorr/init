@@ -47,6 +47,7 @@ apt -yy update
 apt -yy install $(cat init/script/software.txt)
 
 # Install Python3.13
+apt -yy autoremove python3
 apt -yy install software-properties-common
 add-apt-repository -yy ppa:deadsnakes/ppa
 apt -yy update
