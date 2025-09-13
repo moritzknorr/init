@@ -42,14 +42,16 @@ ssh-keyscan github.com > /home/knorr/.ssh/known_hosts
 # Enable ssh login
 rm /run/nologin
 
-# Install Python
-apt -yy remove python3
-add-apt-repository -yy ppa:deadsnakes/ppa
-apt -yy install python3.13
-
 # Install Software
 apt -yy update
 apt -yy install $(cat init/script/software.txt)
+
+# Install Python3.13
+apt -yy install software-properties-common
+add-apt-repository -yy ppa:deadsnakes/ppa
+apt -yy update
+apt -yy install python3.13 python3.13-venv
+python3.13 -m ensurepip --upgrade
 
 # Install Docker with new "docker compose"
 apt -yy remove docker docker-engine docker.io containerd runc
