@@ -39,7 +39,6 @@
   powerManagement.enable = false;
   # Graphics
   hardware.graphics.enable = true;
-  hardware.opengl.enable = true;
   # Enable uinput for solaar
   hardware.logitech.wireless.enable = true;
   hardware.uinput.enable = true;
@@ -218,6 +217,7 @@
       sqlalchemy
       sqlalchemy-utils
       paramiko
+      pymongo
     ]))
   ];
   fonts.packages = with pkgs; [

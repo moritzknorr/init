@@ -7,7 +7,7 @@
  7. ✅ Make windows stickable to a monitor, not a screen > fixed
  8. ✅ Allow STRG+# in vscode to comment lines
  9. ✅ Allow STRG+SHIFT+ALT to copy lines in vscode up and down
-10. 🚫 Webcam with blur in Google Chrome
+10. ✅ Webcam with blur in Google Chrome (works now somehow, see screenshot
 11. 🚫 Paste Emojis to Chrome without pressing enter
 12. 🚫 Get Thunar to open terminal applications for editing (e.g. vim for .txt files)
 13. 🚫 Get Wofi to open terminal applications (e.g. vim)

@@ -20,11 +20,15 @@
   # The star of the show. You can configure anything you want here.
   home.packages = with pkgs; [
     google-chrome
-    vscode.fhs
+    vscode-fhs
     dbeaver-bin
     spotify
     vlc
   ];
+  programs.vscode = {
+    enable = true;
+    package = pkgs.vscode.fhs;
+  };
 
   ## Add authorized keys does not work
   ## home.file.".ssh/authorized_keys" = { text = builtins.readFile /home/knorr/init/authorized_keys; force = true; mode = "0600"; };
