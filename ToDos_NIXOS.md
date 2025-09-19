@@ -9,6 +9,7 @@
  9. ✅ Allow STRG+SHIFT+ALT to copy lines in vscode up and down
 10. ✅ Webcam with blur in Google Chrome (works now somehow, see screenshot
 11. 🚫 Paste Emojis to Chrome without pressing enter
+    Situation is better now, can paste it via strg+v
 12. 🚫 Get Thunar to open terminal applications for editing (e.g. vim for .txt files)
 13. 🚫 Get Wofi to open terminal applications (e.g. vim)
 14. 🚫 Random crashes of SSH connection (esp. when working with vscode)
