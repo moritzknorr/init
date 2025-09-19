@@ -39,6 +39,7 @@
 
   # Add dotfiles from ../config
   home.file.".bashrc" = { source = config.lib.file.mkOutOfStoreSymlink "/home/knorr/init/config/bashrc.bashrc"; };
+  home.file.".bash_profile" = { source = config.lib.file.mkOutOfStoreSymlink "/home/knorr/init/config/bash_profile.bash_profile"; };
   home.file.".gitconfig" = { source = config.lib.file.mkOutOfStoreSymlink "/home/knorr/init/config/gitconfig.gitconfig"; };
   home.file.".tmux.conf" = { source = config.lib.file.mkOutOfStoreSymlink "/home/knorr/init/config/tmux.tmux.conf"; };
   home.file.".vimrc" = { source = config.lib.file.mkOutOfStoreSymlink "/home/knorr/init/config/vimrc.vimrc"; };
