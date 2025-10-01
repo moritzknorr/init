@@ -13,8 +13,8 @@
 12. 🚫 Get Thunar to open terminal applications for editing (e.g. vim for .txt files)
 13. 🚫 Get Wofi to open terminal applications (e.g. vim)
 14. 🚫 Random crashes of SSH connection (esp. when working with vscode)
-15. 🚫 Login Shell in tmux, not using PS1 variable somehow
-
+15. ✅ Login Shell in tmux, not using PS1 variable somehow
+16. 🚫 F5 for Ducky Keyboard
 
 
 

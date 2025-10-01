@@ -219,6 +219,7 @@
       sqlalchemy-utils
       paramiko
       pymongo
+      xlsxwriter
     ]))
   ];
   fonts.packages = with pkgs; [
@@ -236,10 +237,17 @@
     proggyfonts
   ];
 
+  # Firewall settings, 53317 is for localsend
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 80 8000 8080 3000 ];
+    allowedTCPPorts = [ 80 8000 8080 3000 53317 ];
+    allowedUDPPorts = [ 53317 ];
   };
+  networking.firewall.extraStopCommands = ''
+    iptables -A nixos-fw -p tcp --source 192.168.178.0/24 -j nixos-fw-accept
+    iptables -A nixos-fw -p udp --source 192.168.178.0/24 -j nixos-fw-accept
+  '';
+  
 
 
   # This value determines the NixOS release from which the default

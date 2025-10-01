@@ -24,6 +24,7 @@
     dbeaver-bin
     spotify
     vlc
+    localsend
   ];
   programs.vscode = {
     enable = true;
