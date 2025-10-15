@@ -158,7 +158,7 @@
     yazi
     # Applications
     solaar
-    awscli
+    awscli2
     zip
     feh
     # Terminal tools
@@ -172,10 +172,8 @@
     poppler-utils
     openssl
     # Screenshot tools
+    hyprshot
     satty
-    slurp
-    grim
-    geeqie
     # Tools to monitor wayland
     wev
     # Nvidia Tools
