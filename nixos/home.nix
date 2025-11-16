@@ -25,6 +25,7 @@
     spotify
     vlc
     localsend
+    bruno
   ];
   programs.vscode = {
     enable = true;

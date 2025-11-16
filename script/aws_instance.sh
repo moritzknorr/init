@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ENV="aventa"
+ENV="aventa-pharm"
 
 echo 'Available instance types: '
 echo 'ARM: t4g.small (2 Gb), t4g.large (16 Gb), t4g.2xlarge (32 Gb)'

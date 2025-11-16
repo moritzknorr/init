@@ -185,6 +185,7 @@
     toybox
     usbutils
     pciutils
+    gcc
     # Basic Python environment
     (python313.withPackages (ps: with ps; [
       python-dotenv
@@ -218,6 +219,8 @@
       paramiko
       pymongo
       xlsxwriter
+      markdown
+      matplotlib
     ]))
   ];
   fonts.packages = with pkgs; [
