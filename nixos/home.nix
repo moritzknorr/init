@@ -26,6 +26,7 @@
     vlc
     localsend
     bruno
+    obs-studio
   ];
   programs.vscode = {
     enable = true;

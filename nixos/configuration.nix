@@ -1,5 +1,16 @@
 { config, pkgs, ... }:
 
+let
+  # Import the unstable channel
+  # Make sure you have added it first:
+  #   sudo nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs-unstable
+  #   sudo nix-channel --update
+  unstable = import <nixpkgs-unstable> {
+    config = {
+      allowUnfree = true;
+    };
+  };
+in
 {
   imports = [
     ./NZXT_hardware-configuration.nix
@@ -8,6 +19,8 @@
   # bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernelModules = [ "v4l2loopback" ];
+  boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -108,8 +121,7 @@
   # Add nix-ld to get vscode working:
   programs.nix-ld.enable = true;
 
-
-  # Allow unfree packages
+  # Allow unfree packages (for the main channel)
   nixpkgs.config.allowUnfree = true;
   
   # Setup file manager
@@ -185,7 +197,12 @@
     toybox
     usbutils
     pciutils
+    dbeaver-bin
+    postman
     gcc
+    glib
+    glibc
+    glibc.dev
     # Basic Python environment
     (python313.withPackages (ps: with ps; [
       python-dotenv
@@ -222,7 +239,11 @@
       markdown
       matplotlib
     ]))
+
+    # Example unstable package (replace with what you actually need)
+    unstable.antigravity
   ];
+
   fonts.packages = with pkgs; [
     open-sans
     encode-sans
@@ -249,14 +270,8 @@
     iptables -A nixos-fw -p udp --source 192.168.178.0/24 -j nixos-fw-accept
   '';
   
-
-
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  # on your system were taken.
   system.stateVersion = "24.05"; # Did you read the comment?
-
 }

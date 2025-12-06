@@ -12,8 +12,8 @@
 12. 🚫 Get Thunar to open terminal applications for editing (e.g. vim for .txt files)
 13. 🚫 Get Wofi to open terminal applications (e.g. vim)
 14. 🚫 Random crashes of SSH connection (esp. when working with vscode)
-15. ✅ Login Shell in tmux, not using PS1 variable somehow
-16. ✅☑️F5 for Ducky Keyboard > Obsolete with Keychron Keyboard
+15. ✅ Login Shell in tmux, not using PS1 variable somehow > fixed
+16. ☑️ F5 for Ducky Keyboard > Obsolete with Keychron Keyboard
 17. ✅ Use hyprshot instead of ???
 18. ✅ Freeze monitor when making a screenshot
 19. 🚫 Find a good replacement for Postman
