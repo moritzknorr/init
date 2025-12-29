@@ -44,10 +44,10 @@ rm /run/nologin
 
 # Install Software
 apt -yy update
-apt -yy install $(cat init/script/software.txt)
+apt -yy install $(cat /home/knorr/init/script/software.txt)
 
 # Install Python3.13
-apt -yy autoremove python3
+# apt -yy autoremove python3, never uninstall python on ubuntu
 apt -yy install software-properties-common
 add-apt-repository -yy ppa:deadsnakes/ppa
 apt -yy update
