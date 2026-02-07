@@ -1,9 +1,9 @@
 #!/bin/sh
 
-ENV="aventa-pharm"
+ENV="aventa"
 
 echo 'Available instance types: '
-echo 'ARM: t4g.small (2 Gb), t4g.large (16 Gb), t4g.2xlarge (32 Gb)'
+echo 'ARM: t4g.small (2 Gb), t4g.medium (4gb), t4g.large (16 Gb), t4g.2xlarge (32 Gb)'
 echo 'x64: t3.small (2 Gb), t3.xlarge (8 Gb), t3.2xlarge (32 Gb), c5.12xlarge (96 Gb)'
 read -p 'Instance Type [t4g.micro]: ' TYPE
 read -p 'Instance Architecture [arm]: ' ARCHITECTURE
@@ -12,10 +12,10 @@ TYPE=${TYPE:-t4g.micro}
 ARCHITECTURE=${ARCHITECTURE:-arm}
 
 if [ ${ARCHITECTURE} = "arm" ]; then
-  IMAGEID=ami-0b4b0a5bd04aec558
+  IMAGEID=ami-0df5c15a5f998e2ab
 else
   # x64
-  IMAGEID=ami-0a49b025fffbbdac6
+  IMAGEID=ami-01f79b1e4a5c64257
 fi
 
 read -p "Start ${TYPE} instance, type yes: " DO
