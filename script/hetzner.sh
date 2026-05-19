@@ -10,6 +10,10 @@ mkdir /home/knorr
 usermod -d /home/knorr -m knorr
 usermod -c "Moritz Knorr" knorr
 
+# key verschieben
+mkdir /home/knorr/.ssh/
+mv /root/.ssh/authorized_keys /home/knorr/.ssh/authorized_keys
+
 # Init holen
 cd /home/knorr/
 git clone https://github.com/moritzknorr/init.git
