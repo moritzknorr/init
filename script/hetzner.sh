@@ -9,6 +9,7 @@ useradd knorr
 mkdir /home/knorr
 usermod -d /home/knorr -m knorr
 usermod -c "Moritz Knorr" knorr
+usermod -s /bin/bash knorr
 
 # key verschieben
 mkdir /home/knorr/.ssh/
