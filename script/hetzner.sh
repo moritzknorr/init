@@ -51,6 +51,8 @@ rm /run/nologin
 # Install Software
 apt -yy update
 apt -yy install $(cat /home/knorr/init/script/software.txt)
+# install aws-cli from snap for ubuntu 24.04
+snap install aws-cli --classic
 
 # Install Python3.13
 # apt -yy autoremove python3, never uninstall python on ubuntu
