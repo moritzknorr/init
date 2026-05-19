@@ -1,1 +1,1 @@
-awscli unzip parallel curl git tmux vim pass zip
+unzip parallel curl git tmux vim pass zip
