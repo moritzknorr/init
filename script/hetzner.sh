@@ -4,6 +4,9 @@ export DEBIAN_FRONTEND=noninteractive
 # Disable ssh login
 echo "Still starting up" | sudo tee /run/nologin
 
+# generate locales
+sudo locale-gen en_GB.UTF-8
+
 # User Ubuntu durch knorr ersetzen
 useradd knorr
 mkdir /home/knorr
