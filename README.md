@@ -1,96 +1,44 @@
-**REPO IS PUBLIC**
+# init
 
-# Information
+Personal configuration repository — dotfiles, NixOS system config, desktop environment, and utility scripts.
 
-only ec2.sh is copied onto host.
-
-## Public Key Pair for aws
-`ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCdkYyl7z53CxVnxHGYxCC8f/1U7hZeilSONexi2VP5Cfbg8BgR+ZmwK0KrCBis5sB+mSyCC41KxYfyDHcSwIBYiVgAiFEXiTN+8Ers6HYri9EYxx32JqKKaFCL7euvIQqrukaVR2Jd14nVctaUakzAHPJ/hak3dwb/e5zhZ2Hdd4zQGbuV20cEAJEBS0SqW5uzNm9PN67+7s0zQPNtpSuolrLPf6uK/JqMqdV0ljMZYUKwlAhYiidQQU0n/8sn/0AkZC8EqI3Q3lbNGIcrn10mWBa0UN09cqBm4CrLZX40Y3EBJGxL+pYBIN8ZmzK+1A8pyorbZy2FErFSFPYYwKjN moritzknorr`
-
-## Desktop Files
-Desktop File:
-Place in `/usr/share/application/stadia.desktop`
-Place in for xubuntu `/usr/share/application/stadias.desktop`
-[List of categories](https://specifications.freedesktop.org/menu-spec/latest/apas02.html)
-
-## Install DisplayLink
-[Link to installation](https://www.displaylink.com/downloads/ubuntu)
-
-[Link to lid closed issue](https://gitlab.freedesktop.org/xorg/xserver/-/issues/1028)
-
-[Link to Patch to prevent lag, when Laptop-Lid closed](https://displaylink.org/forum/showthread.php?p=90093)
-
-[Prevent Patch from being updated 1](https://askubuntu.com/questions/18654/how-to-prevent-updating-of-a-specific-package)
-`sudo apt-mark hold xserver-xorg-core`
-
-[Prevent Patch from being updated 2](https://askubuntu.com/questions/1300775/ubuntu-20-04-displaylink-patch-for-xorg)
-
-## Disable WiFi when ethernet conneted
-[Link to description](https://askubuntu.com/questions/1271491/disable-wifi-if-lan-is-connected)
-
-
-## Barrier Keybinding
-[Link to thread](https://github.com/debauchee/barrier/issues/437)
-```
-setxkbmap -device `xinput list | grep "Virtual core XTEST keyboard" | sed -e 's/.\+=\([0-9]\+\).\+/\1/'` de
-```
-
-## Install Stadia
-[Link to reddit post](https://www.reddit.com/r/Stadia/comments/e02zj9/stadia_on_ubuntu/)
-
-Install chromium with vaapi
-`sudo snap install --channel=candidate/vaapi chromium`
-
-Go to `chrome://flags`
-
-Enabel override `software rendering list` flag
-
-Icon: https://uxwing.com/google-stadia-icon/
+## Structure
 
 ```
-[Desktop Entry]
-Version=1.0
-Name=Stadia
-GenericName=Google Stadia
-Comment=Play with Google Stadia
-Exec=/snap/bin/chromium --ignore-gpu-blacklist --disable-gpu-vsync http://stadia.google.com/
-StartupNotify=true
-Terminal=false
-Icon=/usr/share/icons/stadia.png
-Type=Application
-Categories=Game;ActionGame;
+init/
+├── nixos/          NixOS flake: system config, home-manager, hardware
+├── dotfiles/       Shell, git, vim, tmux — deploy with install.sh
+├── desktop/        Hyprland, waybar, wofi, kitty, solaar configs
+├── scripts/        Utility scripts (AWS instance launcher)
+└── authorized_keys SSH public key
 ```
 
-## Install TeamSpeak
+## NixOS
 
-goto: https://teamspeak.com/en/downloads/
+Configuration is managed via flakes with home-manager. Host: `NZXT` (x86_64).
 
-download and execute .run file.
+```bash
+# Apply configuration
+sudo nixos-rebuild switch --flake './init/nixos/.#NZXT' --impure
 
-Icon: https://ya-webdesign.com/image/teamspeak-3-icon-png/364526.html
-
-```
-[Desktop Entry]
-Version=1.0
-Name=TeamSpeak 3 Client
-GenericName=TeamSpeak
-Comment=Start the Teamspeak 3 Client
-Exec=/usr/bin/TeamSpeak3-Client-linux_amd64/ts3client_runscript.sh
-StartupNotify=true
-Terminal=false
-Icon=/usr/bin/TeamSpeak3-Client-linux_amd64/teamspeak.png
-Type=Application
-Categories=Network;Telephony;
+# Upgrade (update flake inputs first)
+sudo nixos-rebuild switch --flake './init/nixos/.#NZXT' --impure --upgrade
 ```
 
-# Backup xfce4
+## Dotfiles
 
-Create backup: `tar -C .config/ -czvf xfce4.tar.gz xfce4/`
+For non-NixOS machines. Deploys `.bashrc`, `.gitconfig`, `.tmux.conf`, `.vimrc` to `$HOME`.
 
-Extract backup: `rm -rf ~/.config/xfce4/ && tar -xvf xfce4.tar.gz && mv xfce4 ~/.config/ && sudo reboot now`
+```bash
+dotfiles/install.sh
+```
 
-# Disable bluetooth on startup
-`sudo sed -i 's/AutoEnable=true/AutoEnable=false/g' /etc/bluetooth/main.conf`
+## Scripts
 
-# find out list of fonts to use in linux
-`fc-list : family | grep -i JetBrains`
+### aws_instance.sh
+
+Launches an EC2 instance interactively. Requires a local `scripts/aws_config.sh` (gitignored) with subnet and security group IDs — copy `aws_config.sh.example` to get started.
+
+## Desktop
+
+Hyprland compositor with waybar, wofi launcher, hyprlock, hyprpaper, kitty terminal, and solaar for Logitech peripherals.

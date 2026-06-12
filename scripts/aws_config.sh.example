@@ -1,0 +1,16 @@
+# Copy this file to aws_config.sh and fill in your values.
+# aws_config.sh is gitignored and never committed.
+
+declare -A SUBNET_IDS=(
+  [aventa]="subnet-xxxxxxxxxxxxxxxxx"
+  [aventa-prod]="subnet-xxxxxxxxxxxxxxxxx"
+  [aventapharm]="subnet-xxxxxxxxxxxxxxxxx"
+  [agencio-dev]="subnet-xxxxxxxxxxxxxxxxx"
+)
+
+declare -A SECURITY_GROUP_IDS=(
+  [aventa]="sg-xxxxxxxxxxxxxxxxx"
+  [aventa-prod]="sg-xxxxxxxxxxxxxxxxx"
+  [aventapharm]="sg-xxxxxxxxxxxxxxxxx"
+  [agencio-dev]="sg-xxxxxxxxxxxxxxxxx"
+)

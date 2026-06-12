@@ -1,0 +1,8 @@
+# Secrets & credentials
+*.pem
+*.key
+.env
+.env.*
+
+# AWS — local config with real subnet/sg IDs, never commit
+scripts/aws_config.sh

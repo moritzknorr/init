@@ -140,3 +140,25 @@ EDITOR="/usr/bin/vim"
 
 # Add .local/bin to PATH for claude-code
 export PATH="$HOME/.local/bin:$PATH"
+
+# Check for updates to ~/init config repo
+_check_init_updates() {
+    local repo="$HOME/init"
+    local stamp="${XDG_CACHE_HOME:-$HOME/.cache}/init_update_stamp"
+    [ -d "$repo/.git" ] || return
+    mkdir -p "$(dirname "$stamp")"
+    local now last
+    now=$(date +%s)
+    last=$(cat "$stamp" 2>/dev/null || echo 0)
+    if [ "$(( now - last ))" -gt 3600 ]; then
+        echo "$now" > "$stamp"
+        git -C "$repo" fetch --quiet 2>/dev/null &
+    fi
+    local behind
+    behind=$(git -C "$repo" rev-list --count HEAD..@{u} 2>/dev/null || echo 0)
+    if [ "${behind:-0}" -gt 0 ]; then
+        echo -e "\033[33minit: ${behind} new commit(s) available\033[0m — cd ~/init && git pull && dotfiles/install.sh"
+    fi
+}
+_check_init_updates
+unset -f _check_init_updates
