@@ -4,11 +4,19 @@ export DEBIAN_FRONTEND=noninteractive
 # Disable ssh login
 echo "Still starting up" | sudo tee /run/nologin
 
+# generate locales
+sudo locale-gen en_GB.UTF-8
+
 # User Ubuntu durch knorr ersetzen
-usermod -l knorr ubuntu
-groupmod -n knorr ubuntu
+useradd knorr
+mkdir /home/knorr
 usermod -d /home/knorr -m knorr
 usermod -c "Moritz Knorr" knorr
+usermod -s /bin/bash knorr
+
+# key verschieben
+mkdir /home/knorr/.ssh/
+mv /root/.ssh/authorized_keys /home/knorr/.ssh/authorized_keys
 
 # Init holen
 cd /home/knorr/
