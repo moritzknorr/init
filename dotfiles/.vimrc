@@ -1,19 +1,31 @@
+set nocompatible
+syntax on
+
 set nu
 set rnu
 set background=dark
 set t_Co=256
-
-" make cursor usable
-set nocompatible
+set encoding=utf-8
 
 filetype plugin indent on
-" show existing tab with 4 spaces width
+
 set tabstop=4
-" when indenting with '>', use 4 spaces width
 set shiftwidth=4
-" On pressing tab, insert 4 spaces
 set expandtab
-" prevent word wrap
+set autoindent
+
 set nowrap
+set breakindent
 set textwidth=0
 set wrapmargin=0
+
+set backspace=indent,eol,start
+set hidden
+set wildmenu
+set laststatus=2
+set scrolloff=5
+
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
