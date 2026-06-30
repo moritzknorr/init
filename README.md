@@ -9,6 +9,7 @@ init/
 ├── nixos/          NixOS flake: system config, home-manager, hardware
 ├── dotfiles/       Shell, git, vim, tmux — deploy with install.sh
 ├── desktop/        Hyprland, waybar, wofi, kitty, solaar configs
+├── ai/             Shared AI agent config for Claude Code, OpenCode, Gemini CLI
 ├── scripts/        Utility scripts (AWS instance launcher)
 └── authorized_keys SSH public key
 ```
@@ -31,6 +32,14 @@ For non-NixOS machines. Deploys `.bashrc`, `.gitconfig`, `.tmux.conf`, `.vimrc` 
 
 ```bash
 dotfiles/install.sh
+```
+
+## AI
+
+Shared instructions and custom agents for Claude Code, OpenCode, and Gemini CLI. See `ai/README.md` for details.
+
+```bash
+ai/install.sh
 ```
 
 ## Scripts
