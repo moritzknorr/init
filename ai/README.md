@@ -10,6 +10,9 @@ Shared AI agent configuration deployed across **Claude Code**, **OpenCode**, and
 2. **Custom agents** — symlinks this repo's `agents/` into each tool, and downloads the
    [VoltAgent](https://github.com/VoltAgent/awesome-claude-code-subagents) subagent collection
    into the tools' system directories (kept out of this repo).
+3. **Plugins** — registers the [superpowers](https://github.com/obra/superpowers) plugin
+   for both **OpenCode** (via `opencode.json`) and **Claude Code** (via the `claude` CLI).
+   Idempotent; existing plugins/MCP/secrets preserved.
 
 ## Usage
 
@@ -68,3 +71,23 @@ It becomes available in all tools after the next `install.sh` run.
 
 The collection tracks `main` by default. For reproducible installs, set `VOLTAGENT_REF`
 in `install.sh` to a tag or commit SHA.
+
+## OpenCode plugins
+
+`install.sh` adds the [superpowers](https://github.com/obra/superpowers) plugin to
+`~/.config/opencode/opencode.json`. The merge is done with `jq` and is idempotent — your
+existing plugins, MCP servers, and API keys are left untouched. If `jq` is missing, the
+script prints the entry to add manually. Restart OpenCode after install to load the plugin.
+
+## Claude Code plugins
+
+`install.sh` also installs [superpowers](https://github.com/obra/superpowers) for Claude
+Code via the `claude` CLI:
+
+```bash
+claude plugin marketplace add obra/superpowers
+claude plugin install superpowers@superpowers-dev --scope user
+```
+
+Both commands are idempotent (re-runs are no-ops). Requires the `claude` CLI on `PATH`;
+if absent, the step is skipped with a warning. Restart Claude Code to load the skills.

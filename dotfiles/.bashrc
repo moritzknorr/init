@@ -141,6 +141,9 @@ EDITOR="/usr/bin/vim"
 # Add .local/bin to PATH for claude-code
 export PATH="$HOME/.local/bin:$PATH"
 
+# Add opencode to PATH
+export PATH="$HOME/.opencode/bin:$PATH"
+
 # Check for updates to ~/init config repo
 _check_init_updates() {
     local repo="$HOME/init"

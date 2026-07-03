@@ -10,6 +10,14 @@ CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/voltagent-subagents"
 CLAUDE_VOLT="$HOME/.claude/agents/voltagent"
 OPENCODE_VOLT="$HOME/.config/opencode/agents/voltagent"
 
+# OpenCode plugins to ensure are registered (obra/superpowers etc.)
+OPENCODE_CONFIG="$HOME/.config/opencode/opencode.json"
+SUPERPOWERS_PLUGIN="superpowers@git+https://github.com/obra/superpowers.git"
+
+# Superpowers as a Claude Code plugin (obra/superpowers -> marketplace "superpowers-dev")
+SUPERPOWERS_REPO="obra/superpowers"
+SUPERPOWERS_MARKETPLACE="superpowers-dev"
+
 echo "Installing AI configurations..."
 
 # --- Guards -----------------------------------------------------------------
@@ -22,10 +30,36 @@ cp "$DIR/AI.md" ~/.claude/CLAUDE.md
 ln -sfn "$DIR/agents" ~/.claude/agents/local
 ln -sfn "$DIR/commands" ~/.claude/commands
 
+# Register the superpowers plugin for Claude Code (idempotent; re-runs are no-ops)
+if command -v claude >/dev/null 2>&1; then
+    claude plugin marketplace add "$SUPERPOWERS_REPO" >/dev/null 2>&1 || true
+    claude plugin install "superpowers@$SUPERPOWERS_MARKETPLACE" --scope user >/dev/null 2>&1 || true
+    echo "Claude Code superpowers plugin registered."
+else
+    echo "Warning: claude CLI not found; skipping Claude superpowers plugin."
+fi
+
 # OpenCode reads ~/.config/opencode/AGENTS.md
 mkdir -p ~/.config/opencode/agents
 cp "$DIR/AI.md" ~/.config/opencode/AGENTS.md
 ln -sfn "$DIR/agents" ~/.config/opencode/agents/local
+
+# Register the superpowers plugin in OpenCode config (idempotent, preserves
+# existing plugins/MCP/secrets). Requires jq.
+if command -v jq >/dev/null 2>&1; then
+    if [ ! -f "$OPENCODE_CONFIG" ]; then
+        printf '{\n  "$schema": "https://opencode.ai/config.json"\n}\n' > "$OPENCODE_CONFIG"
+    fi
+    tmp="$(mktemp)"
+    jq --arg p "$SUPERPOWERS_PLUGIN" '
+        .plugin = (.plugin // [])
+        | if (.plugin | index($p)) then . else .plugin += [$p] end
+    ' "$OPENCODE_CONFIG" > "$tmp" && mv "$tmp" "$OPENCODE_CONFIG"
+    echo "OpenCode superpowers plugin registered."
+else
+    echo "Warning: jq not found; skipping superpowers plugin registration."
+    echo "  Add manually to $OPENCODE_CONFIG plugin array: $SUPERPOWERS_PLUGIN"
+fi
 
 # Gemini CLI reads ~/.gemini/GEMINI.md
 mkdir -p ~/.gemini
@@ -49,7 +83,8 @@ fi
 
 # install_voltagent <dest_dir> <patch_mode:0|1>
 # Copies all category agents into dest_dir. When patch_mode=1, ensures each
-# file has "mode: all" frontmatter so OpenCode lists it as a primary agent.
+# file has "mode: subagent" frontmatter (subagent-only, not primary) and drops
+# Claude-only frontmatter keys that fail OpenCode's schema.
 install_voltagent() {
     local dest="$1" patch_mode="$2" file name
 
@@ -60,14 +95,14 @@ install_voltagent() {
         name="$(basename "$file")"
         cp "$file" "$dest/$name"
 
-        # OpenCode: add "mode: all", and drop Claude-only frontmatter keys
+        # OpenCode: add "mode: subagent", and drop Claude-only frontmatter keys
         # ("tools:" string and unprefixed "model:") that fail OpenCode's schema.
         if [ "$patch_mode" = "1" ] && grep -q "^---" "$dest/$name"; then
             awk '
             BEGIN { fm=0; done=0 }
             /^---$/ {
                 if (!fm && !done) { fm=1; print; next }
-                if (fm && !done)  { print "mode: all"; fm=0; done=1; print; next }
+                if (fm && !done)  { print "mode: subagent"; fm=0; done=1; print; next }
             }
             fm && /^(tools|model):/ { next }
             { print }
