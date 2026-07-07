@@ -1,10 +1,10 @@
 #!/bin/bash
-DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-DIR="/home/knorr"
-cp "$DIR/.bashrc" ~/.bashrc
-cp "$DIR/.bash_profile" ~/.bash_profile
-cp "$DIR/.profile" ~/.profile
-cp "$DIR/.gitconfig" ~/.gitconfig
-cp "$DIR/.tmux.conf" ~/.tmux.conf
-cp "$DIR/.vimrc" ~/.vimrc
+DIR_SOURCE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DIR_TARGET="/home/knorr"
+cp "$DIR_SOURCE/.bashrc" "$DIR_TARGET/.bashrc"
+cp "$DIR_SOURCE/.bash_profile" "$DIR_TARGET/.bash_profile"
+cp "$DIR_SOURCE/.profile" "$DIR_TARGET/.profile"
+cp "$DIR_SOURCE/.gitconfig" "$DIR_TARGET/.gitconfig"
+cp "$DIR_SOURCE/.tmux.conf" "$DIR_TARGET/.tmux.conf"
+cp "$DIR_SOURCE/.vimrc" "$DIR_TARGET/.vimrc"
 echo "Dotfiles installed. Re-login to apply shell changes."
