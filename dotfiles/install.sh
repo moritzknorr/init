@@ -1,5 +1,6 @@
 #!/bin/bash
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DIR="/home/knorr"
 cp "$DIR/.bashrc" ~/.bashrc
 cp "$DIR/.bash_profile" ~/.bash_profile
 cp "$DIR/.profile" ~/.profile
