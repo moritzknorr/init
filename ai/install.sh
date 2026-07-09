@@ -18,10 +18,61 @@ SUPERPOWERS_PLUGIN="superpowers@git+https://github.com/obra/superpowers.git"
 SUPERPOWERS_REPO="obra/superpowers"
 SUPERPOWERS_MARKETPLACE="superpowers-dev"
 
+# Context7 MCP server (Upstash-hosted remote). Requires a free API key from
+# https://context7.com for higher rate limits. The key is passed as a custom
+# "CONTEXT7_API_KEY" header (NOT a Bearer token) and OAuth auto-detection must
+# be disabled to avoid OpenCode startup failures.
+CONTEXT7_NAME="context7"
+CONTEXT7_URL="https://mcp.context7.com/mcp"
+CONTEXT7_API_KEY_ENV="CONTEXT7_API_KEY"
+
 echo "Installing AI configurations..."
 
 # --- Guards -----------------------------------------------------------------
 command -v git >/dev/null 2>&1 || { echo "Error: git not found."; exit 1; }
+
+# --- Context7 API key -------------------------------------------------------
+# Prompt the user for a Context7 API key (optional but recommended). The key is
+# persisted to ~/.bashrc and ~/.zshrc so any shell-launched OpenCode/Claude
+# process has it in its environment, then exported for the rest of this script.
+if [ -z "${!CONTEXT7_API_KEY_ENV:-}" ]; then
+    echo
+    echo "Context7 MCP uses an API key for higher rate limits."
+    echo "Get a free key at https://context7.com (sign up -> API Keys)."
+    printf "Paste your Context7 API key (blank to skip, anonymous tier): "
+    read -r CONTEXT7_API_KEY
+else
+    CONTEXT7_API_KEY="${!CONTEXT7_API_KEY_ENV}"
+fi
+
+if [ -n "$CONTEXT7_API_KEY" ]; then
+    export "$CONTEXT7_API_KEY_ENV"="$CONTEXT7_API_KEY"
+    # Idempotently persist the export to shell rc files using marker blocks.
+    persist_rc() {
+        local rc="$1" marker="# >>> context7 api key >>>"
+        [ -f "$rc" ] || return 0
+        # Remove any previous marker block, then append fresh.
+        if grep -q "$marker" "$rc"; then
+            local tmp; tmp="$(mktemp)"
+            awk -v m="$marker" '
+                $0 ~ m { skip=1; next }
+                skip && $0 ~ /^# <<< context7 api key <<</ { skip=0; next }
+                !skip { print }
+            ' "$rc" > "$tmp" && mv "$tmp" "$rc"
+        fi
+        {
+            printf '\n%s\n' "$marker"
+            printf 'export %s=%q\n' "$CONTEXT7_API_KEY_ENV" "$CONTEXT7_API_KEY"
+            printf '%s\n' "# <<< context7 api key <<<"
+        } >> "$rc"
+    }
+    persist_rc "$HOME/.bashrc"
+    persist_rc "$HOME/.zshrc"
+    echo "Context7 API key persisted to ~/.bashrc and ~/.zshrc"
+    echo "  (restart your shell or run: source ~/.bashrc)"
+else
+    echo "No Context7 API key provided; using anonymous rate-limited tier."
+fi
 
 # --- Global instruction files ----------------------------------------------
 # Claude Code reads ~/.claude/CLAUDE.md
@@ -37,6 +88,22 @@ if command -v claude >/dev/null 2>&1; then
     echo "Claude Code superpowers plugin registered."
 else
     echo "Warning: claude CLI not found; skipping Claude superpowers plugin."
+fi
+
+# Register Context7 MCP for Claude Code (idempotent; re-runs are no-ops).
+# Claude's HTTP transport sends custom headers via --header "Key: Value".
+if command -v claude >/dev/null 2>&1; then
+    if [ -n "$CONTEXT7_API_KEY" ]; then
+        claude mcp add "$CONTEXT7_NAME" --transport http "$CONTEXT7_URL" \
+            --header "${CONTEXT7_API_KEY_ENV}: ${CONTEXT7_API_KEY}" \
+            --scope user >/dev/null 2>&1 || true
+    else
+        claude mcp add "$CONTEXT7_NAME" --transport http "$CONTEXT7_URL" \
+            --scope user >/dev/null 2>&1 || true
+    fi
+    echo "Claude Code Context7 MCP registered."
+else
+    echo "Warning: claude CLI not found; skipping Claude Context7 MCP."
 fi
 
 # OpenCode reads ~/.config/opencode/AGENTS.md
@@ -56,9 +123,34 @@ if command -v jq >/dev/null 2>&1; then
         | if (.plugin | index($p)) then . else .plugin += [$p] end
     ' "$OPENCODE_CONFIG" > "$tmp" && mv "$tmp" "$OPENCODE_CONFIG"
     echo "OpenCode superpowers plugin registered."
+
+    # Register Context7 MCP in OpenCode config (idempotent).
+    # type must be "remote" (not "http"); oauth:false disables OpenCode's
+    # auto-OAuth discovery so an API-key server starts cleanly. The key is
+    # passed as a custom CONTEXT7_API_KEY header using {env:VAR} substitution,
+    # which OpenCode resolves from the launching process environment.
+    tmp="$(mktemp)"
+    if [ -n "$CONTEXT7_API_KEY" ]; then
+        jq --arg name "$CONTEXT7_NAME" --arg url "$CONTEXT7_URL" --arg env "$CONTEXT7_API_KEY_ENV" '
+            .mcp = (.mcp // {})
+            | .mcp[$name] = {
+                "type": "remote",
+                "url": $url,
+                "oauth": false,
+                "headers": { ($env): ("{env:" + $env + "}") }
+            }
+        ' "$OPENCODE_CONFIG" > "$tmp" && mv "$tmp" "$OPENCODE_CONFIG"
+    else
+        jq --arg name "$CONTEXT7_NAME" --arg url "$CONTEXT7_URL" '
+            .mcp = (.mcp // {})
+            | .mcp[$name] = {"type": "remote", "url": $url, "oauth": false}
+        ' "$OPENCODE_CONFIG" > "$tmp" && mv "$tmp" "$OPENCODE_CONFIG"
+    fi
+    echo "OpenCode Context7 MCP registered."
 else
     echo "Warning: jq not found; skipping superpowers plugin registration."
     echo "  Add manually to $OPENCODE_CONFIG plugin array: $SUPERPOWERS_PLUGIN"
+    echo "  Add manually to $OPENCODE_CONFIG mcp.$CONTEXT7_NAME (type=remote, oauth=false, url=$CONTEXT7_URL)"
 fi
 
 # Gemini CLI reads ~/.gemini/GEMINI.md
