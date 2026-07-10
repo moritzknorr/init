@@ -8,19 +8,18 @@ case $- in
       *) return;;
 esac
 
-# don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
-HISTCONTROL=ignoreboth
-
 # append to the history file, don't overwrite it
+# (history size / control / format are configured together further below)
 shopt -s histappend
 
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
-
-# set term, this should work for tmux
-export TERM=screen-256color
+# TERM: don't hard-force screen-256color. It is outdated and makes tmux 3.6
+# aggressively send DA1/DA2 terminal-query escapes on attach, whose replies
+# (^[[?61;...c / ^[[>0;...c) leak as visible text at the first prompt over SSH.
+# Only set a sane default when NOT already inside tmux; tmux itself sets the
+# correct tmux-256color inside a session (see .tmux.conf default-terminal).
+if [ -z "$TMUX" ]; then
+    export TERM=xterm-256color
+fi
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -77,32 +76,6 @@ export environ="$HOME/.ssh/environment"
 
 shopt -s no_empty_cmd_completion
 
-# required functions for proxy
-urlencode() {
-    # urlencode <string>
-    old_lc_collate=$LC_COLLATE
-    LC_COLLATE=C
-    local length="${#1}"
-    for (( i = 0; i < length; i++ )); do
-        local c="${1:i:1}"
-        case $c in
-            [a-zA-Z0-9.~_-]) printf "$c" ;;
-            *) printf '%%%02X' "'$c" ;;
-        esac
-    done
-    LC_COLLATE=$old_lc_collate
-}
-
-urldecode() {
-    # urldecode <string>
-    local url_encoded="${1//+/ }"
-    printf '%b' "${url_encoded//%/\\x}"
-}
-
-getip() {
-  curl -4 icanhazip.com
-}
-
 ## Nicer shell experience
 # export GREP_OPTIONS="--color=auto"; # make grep colorful, NOT SUPPORTED
 export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD; # make ls more colorful as well
@@ -112,16 +85,12 @@ export HISTCONTROL=ignoredups; # Remove duplicates from history. I use `git stat
 export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"; # Make some commands not show up in history
 export LANG="en_GB.UTF-8"; # Language formatting is still important
 export LC_ALL="en_GB.UTF-8"; # byte-wise sorting and force language for those pesky apps
-export MANPAGER="less -X"; # Less is more
 
 # Add timestamps to history for better context
 export HISTTIMEFORMAT="%F %T " # Format: YYYY-MM-DD HH:MM:SS
 
 # A safer 'rm'
 alias rm='rm -i'
-
-# less with line numbers
-alias less='less -N'
 
 # A better 'ls' (your 'll' is good, this one is an alternative)
 alias l='ls -lhtr' # List all files, human-readable sizes
@@ -131,12 +100,18 @@ alias c='clear'
 
 # Auto-start tmux, if not called from vscode or in Hyprland
 if command -v tmux &> /dev/null && [ -z "$TMUX" ] && [ "$TERM_PROGRAM" != "vscode" ] && [ -z "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
+    # Drain any pending terminal-query replies (DA1/DA2 ^[[?...c / ^[[>...c)
+    # left in the input buffer by the outer terminal before tmux attaches,
+    # so they don't leak as visible text at the first prompt.
+    if [ -t 0 ]; then
+        while read -r -t 0.1 -n 256 _discard; do :; done
+    fi
     # If a session named "main" exists, attach to it.
     # Otherwise, create a new session named "main".
     (tmux has-session -t main 2>/dev/null && tmux attach -t main) || tmux new-session -s main
 fi
 
-EDITOR="/usr/bin/vim"
+export EDITOR="/usr/bin/vim"
 
 # Add .local/bin to PATH for claude-code
 export PATH="$HOME/.local/bin:$PATH"
@@ -165,3 +140,14 @@ _check_init_updates() {
 }
 _check_init_updates
 unset -f _check_init_updates
+
+# nvm (Node Version Manager)
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+# Disable xdg-open over SSH (for ranger)
+if [ -n "$SSH_CONNECTION" ]; then
+    export OpenXDG=false
+    alias xdg-open="false"
+fi
