@@ -147,10 +147,32 @@ if command -v jq >/dev/null 2>&1; then
         ' "$OPENCODE_CONFIG" > "$tmp" && mv "$tmp" "$OPENCODE_CONFIG"
     fi
     echo "OpenCode Context7 MCP registered."
+
+    # Restrict the Task tool to built-in subagents only (explore/general/scout).
+    # Voltagent ships 154 subagents; without this, every Voltagent agent is
+    # enumerated in the Task tool description every turn, bloating context and
+    # burying the built-ins in the @ autocomplete. With "*": "deny" first and
+    # specific allows after (last-match wins), primary agents can only
+    # auto-delegate to the three built-ins. Manual @mention of any Voltagent
+    # agent still works (task permissions do not block direct mentions).
+    # Hidden system agents (compaction/title/summary) are mode: primary and are
+    # not gated by the task permission, so they are unaffected.
+    tmp="$(mktemp)"
+    jq '
+        .permission = (.permission // {})
+        | .permission.task = {
+            "*": "deny",
+            "explore": "allow",
+            "general": "allow",
+            "scout": "allow"
+        }
+    ' "$OPENCODE_CONFIG" > "$tmp" && mv "$tmp" "$OPENCODE_CONFIG"
+    echo "OpenCode task permissions set (built-in subagents only)."
 else
     echo "Warning: jq not found; skipping superpowers plugin registration."
     echo "  Add manually to $OPENCODE_CONFIG plugin array: $SUPERPOWERS_PLUGIN"
     echo "  Add manually to $OPENCODE_CONFIG mcp.$CONTEXT7_NAME (type=remote, oauth=false, url=$CONTEXT7_URL)"
+    echo "  Add manually to $OPENCODE_CONFIG permission.task (\"*\": deny + explore/general/scout: allow)"
 fi
 
 # Gemini CLI reads ~/.gemini/GEMINI.md
