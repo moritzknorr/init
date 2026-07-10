@@ -136,13 +136,25 @@ if command -v tmux &> /dev/null && [ -z "$TMUX" ] && [ "$TERM_PROGRAM" != "vscod
     (tmux has-session -t main 2>/dev/null && tmux attach -t main) || tmux new-session -s main
 fi
 
-EDITOR="/usr/bin/vim"
+export EDITOR="vim"
+export VISUAL="vim"
 
 # Add .local/bin to PATH for claude-code
 export PATH="$HOME/.local/bin:$PATH"
 
 # Add opencode to PATH
 export PATH="$HOME/.opencode/bin:$PATH"
+
+# nvm (Node Version Manager)
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+# Disable xdg-open over SSH (for ranger)
+if [ -n "$SSH_CONNECTION" ]; then
+    export OpenXDG=false
+    alias xdg-open="false"
+fi
 
 # Check for updates to ~/init config repo
 _check_init_updates() {
