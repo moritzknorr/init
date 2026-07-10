@@ -100,7 +100,11 @@ queries. Chain:
 - `~/.tmux.conf` — live copy (plain copy, not symlink); kept in sync with repo file.
 - `/home/knorr/init/dotfiles/.bashrc` — repo source of truth for bashrc; TERM + drain-guard fix applied.
 - `~/.bashrc` — live copy (plain copy); same fix + context7 secret block (live-only).
-- `/home/knorr/init/dotfiles/install.sh` — copies `.tmux.conf` and `.bashrc` → `~/`.
+- `/home/knorr/init/dotfiles/install.sh` — copies dotfiles → `~/`; installs kitty.conf and
+  the OSC-52 shim (as `~/.local/bin/{xclip,xsel}`).
+- `/home/knorr/init/dotfiles/bin/osc52-clip` — OSC-52 clipboard shim (source of truth);
+  installed as both `xclip` and `xsel` so OpenCode's Linux clipboard path reaches tmux→Windows.
+- `~/.local/bin/xclip`, `~/.local/bin/xsel` — live copies of the shim (plain copies).
 
 ## OSC-52 clipboard fix (2026-07-10)
 ### Symptom
@@ -108,32 +112,58 @@ OpenCode TUI shows "copied to clipboard" when text is selected, but the copy is 
 available via tmux `PREFIX+]` paste, and NOT in the host (Windows) clipboard. Copying
 WITH tmux's own copy-mode works fine.
 
-### Root cause
-OpenCode copies via **OSC 52** (terminal "set system clipboard" escape). tmux dropped it:
-- `set-clipboard` was left at default (leer) — not explicitly `on`.
-- No explicit `terminal-features ':clipboard'` declared, so tmux would only forward OSC 52
-  if the outer terminal advertised the `Ms` capability itself.
-- The current session was running as `TERM=screen-256color` (inherited/started before the
-  conf took effect); `screen-256color` terminfo has **no `Ms`** → tmux ignores OSC 52 for
-  the outer channel. `tmux-256color` (the configured `default-terminal`) DOES have `Ms`.
-- NOTE: **unrelated** to the earlier `allow-passthrough off` leak fix — OSC 52 is handled
-  natively via `set-clipboard`+`Ms`, not passthrough. No conflict; leak fix stays intact.
+### Root cause (CORRECTED — first assumption was wrong)
+**Initial (wrong) assumption:** "OpenCode copies via OSC 52, tmux drops it." Investigated
+via `systematic-debugging`. The tmux side turned out NOT to be the cause.
+**Actual root cause (verified against OpenCode docs + binary):** OpenCode on **Linux does
+NOT emit OSC 52**. It shells out to an external clipboard tool — `wl-copy` if Wayland is
+detected, else `xclip`, else `xsel` (see opencode.ai/docs/troubleshooting → "Copy/paste
+not working on Linux"). On this box:
+- `xclip`/`xsel`/`wl-copy` are **all missing**; `DISPLAY`/`WAYLAND_DISPLAY` are **unset**.
+- OpenCode's copy therefore fails silently while the TUI still shows "copied to clipboard".
+- tmux was never involved — a program spawn is not a terminal escape, so tmux has nothing
+  to intercept. This is why "let tmux handle it" is not possible.
+- Process chain (verified): Windows OpenSSH → tmux server (pts, xterm-256color) → bash →
+  opencode. No nested tmux. Ubuntu (cloud VM from scripts/ec2.sh|hetzner.sh), not NixOS.
 
-### Fix (both `dotfiles/.tmux.conf` + live `~/.tmux.conf`, near the terminal block ~L15-17)
-- `set -g set-clipboard on` — stores OSC 52 into the tmux buffer (PREFIX+] works) AND forwards
-  it out to Windows Terminal via `Ms`.
+### Fix — two parts
+**Part 1 (tmux, still valid & necessary):** in both `dotfiles/.tmux.conf` + `~/.tmux.conf`:
+- `set -g set-clipboard on` — tmux stores OSC 52 into its buffer (PREFIX+] paste) AND
+  forwards it to Windows Terminal via the `Ms` cap.
 - `set -as terminal-features ',*:clipboard'` — forces OSC-52 forwarding even if the outer
-  terminal doesn't advertise the capability.
+  terminal doesn't advertise the cap.
+- Unrelated to the `allow-passthrough off` leak fix — OSC 52 is handled natively by
+  `set-clipboard`, NOT via passthrough (verified: passthrough off, escape still intercepted).
+
+**Part 2 (the actual missing piece — OSC-52 shim):** repo `dotfiles/bin/osc52-clip`,
+installed by `dotfiles/install.sh` as BOTH `~/.local/bin/xclip` and `~/.local/bin/xsel`.
+It intercepts OpenCode's `xclip`/`xsel` call, base64-encodes stdin, and emits an
+`ESC ] 52 ; c ; <b64> BEL` OSC-52 escape to the terminal. tmux (Part 1) then buffers it and
+forwards to Windows. No X server, no root, no extra packages (uses `base64`/`printf`).
+- `~/.local/bin` is already first in PATH (`dotfiles/.bashrc:117`) → shim beats any real xclip.
+- Copy path (`-i`/default): emits OSC 52 to every plausible terminal fd (stdout-if-tty,
+  /dev/tty, own tty) — idempotent, whichever reaches tmux wins.
+- Paste path (`-o`/`-out`): returns empty immediately (no hang); OpenCode paste uses
+  bracketed paste from the terminal, not this tool.
+- Debug: `OSC52_SHIM_DEBUG=1` logs to `$TMPDIR/osc52-shim.log`.
 
 ### Verified
-- `diff dotfiles/.tmux.conf ~/.tmux.conf` → IDENTICAL.
-- `tmux source-file ~/.tmux.conf` → OK; `show-options -g set-clipboard` → `on`;
-  `terminal-features` now contains `clipboard`.
-- **User test pending:** in a NEW tmux session (so `TERM=tmux-256color` with `Ms` applies —
-  a running `screen-256color` session won't pick it up retroactively): select text in
-  OpenCode → confirm `PREFIX+]` pastes it AND it lands in the Windows clipboard.
-- **Fallback:** if Windows clipboard stays empty but `PREFIX+]` works → cause is Windows
-  Terminal-side (OSC 52 disabled there), not tmux.
+- `diff dotfiles/.tmux.conf ~/.tmux.conf` → IDENTICAL; `set-clipboard` → `on`;
+  `terminal-features` contains `clipboard`.
+- **Direct proof:** `printf '\033]52;c;<b64>\a' > <pane_tty>` → `tmux show-buffer` returns the
+  decoded test string. tmux interception confirmed working with passthrough OFF.
+- **Shim proof:** piping a string through `~/.local/bin/xclip -selection clipboard` with
+  stdout pointed at the pane tty → `tmux show-buffer` shows the exact string. No warnings.
+  `xclip -o` returns instantly (no hang).
+- **install.sh:** tested against a throwaway `$HOME` → xclip+xsel land in `.local/bin`, both
+  executable, content matches repo shim.
+- **USER TEST STILL PENDING (the decisive one):** in a session where OpenCode's TUI actually
+  spawns the shim — select text in OpenCode → confirm `PREFIX+]` pastes it AND it reaches the
+  Windows clipboard. My tests prove the tmux chain + shim mechanics but NOT that OpenCode's
+  TUI hands the child a terminal-connected fd. If it fails, run with `OSC52_SHIM_DEBUG=1` and
+  inspect `/tmp/osc52-shim.log` to see which fds the shim saw.
+- **Fallback:** if buffer fills (PREFIX+] works) but Windows clipboard stays empty → cause is
+  Windows Terminal-side (OSC 52 disabled there), not tmux/shim.
 
 ## Next Move
 - Commit `ai/install.sh` change (config file is outside repo, not committed).
@@ -142,4 +172,6 @@ OpenCode copies via **OSC 52** (terminal "set system clipboard" escape). tmux dr
 - Test tmux OSC fix: tab-switch, detach/reattach, SSH reconnect+jump → confirm no `rgb:...` garbage.
 - Test DA-reply fix: full logout + SSH re-login → auto-tmux → confirm no `?61;...c` garbage.
 - Test OSC-52 clipboard fix: in a NEW tmux session, select text in OpenCode → confirm
-  `PREFIX+]` pastes AND Windows clipboard has it.
+  `PREFIX+]` pastes AND Windows clipboard has it. If it fails, `OSC52_SHIM_DEBUG=1` +
+  check `/tmp/osc52-shim.log`.
+- Commit `dotfiles/bin/osc52-clip` + `dotfiles/install.sh` (shim install) + `CONTEXT.md`.
