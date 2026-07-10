@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+# OSC-52 clipboard shim — stands in for the real `xclip` so that OpenCode's
+# Linux clipboard path (which shells out to xclip/xsel) reaches the *host*
+# clipboard over SSH+tmux, without any X server or extra packages.
+#
+# How it works:
+#   OpenCode --calls--> this shim --emits OSC 52--> tmux (set-clipboard on)
+#     --forwards--> outer terminal (Windows Terminal) --> Windows clipboard
+#   AND tmux stores the same copy in its paste buffer (PREFIX+] works too).
+#
+# Paste side (`xclip -o` / `-out`): OSC 52 has no reliable read-back over SSH,
+# so we return empty rather than hang. OpenCode only needs the copy (write) path
+# for its "copied to clipboard" feature; paste into the TUI uses bracketed paste
+# from the terminal, not this tool.
+
+set -euo pipefail
+
+mode="in"   # in = copy (write clipboard), out = paste (read clipboard)
+for arg in "$@"; do
+  case "$arg" in
+    -o|-out|--output) mode="out" ;;
+    -i|-in|--input)   mode="in"  ;;
+  esac
+done
+
+if [ "$mode" = "out" ]; then
+  # Nothing to hand back — do not block OpenCode.
+  exit 0
+fi
+
+# Read everything OpenCode wants to copy.
+data="$(cat)"
+b64="$(printf '%s' "$data" | base64 | tr -d '\n')"
+
+# OSC 52: ESC ] 52 ; c ; <base64> BEL
+esc="$(printf '\033]52;c;%s\a' "$b64")"
+
+# Emit to EVERY plausible terminal target. Writing the escape more than once is
+# harmless (setting the clipboard is idempotent), and we don't know in advance
+# which fd OpenCode's TUI hands the child: stdout, the controlling terminal
+# (/dev/tty), or this process's own tty. Whichever reaches tmux wins; the rest
+# are silently swallowed by pipes.
+wrote=0
+if [ -t 1 ]; then printf '%s' "$esc" >&1 && wrote=1; fi
+if { printf '%s' "$esc" > /dev/tty; } 2>/dev/null; then wrote=1; fi
+t="$(tty 2>/dev/null || true)"
+if [ -n "$t" ] && [ "$t" != "not a tty" ] && [ -w "$t" ]; then
+  { printf '%s' "$esc" > "$t"; } 2>/dev/null && wrote=1
+fi
+[ "$wrote" = 0 ] && printf '%s' "$esc"
+
+# Optional diagnostics: set OSC52_SHIM_DEBUG=1 to trace what happened.
+if [ "${OSC52_SHIM_DEBUG:-}" = 1 ]; then
+  {
+    printf '[%s] args=%s bytes=%s stdout_tty=%s devtty=%s tty=%s\n' \
+      "$(date +%H:%M:%S)" "$*" "${#data}" \
+      "$([ -t 1 ] && echo y || echo n)" \
+      "$([ -w /dev/tty ] && echo y || echo n)" "$t"
+  } >> "${TMPDIR:-/tmp}/osc52-shim.log" 2>/dev/null || true
+fi

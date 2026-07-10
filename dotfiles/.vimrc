@@ -4,7 +4,6 @@ syntax on
 set nu
 set rnu
 set background=dark
-set t_Co=256
 set encoding=utf-8
 
 filetype plugin indent on

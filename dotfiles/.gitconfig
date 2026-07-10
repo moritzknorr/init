@@ -1,10 +1,7 @@
 [user]
 	name = Moritz Knorr
 	email = mail@moritzknorr.de
-	username = moritzknorr
 [core]
-	editor = vi
+	editor = vim
 [pull]
-    rebase = false
-[web]
-	browser = google-chrome
+	rebase = false
