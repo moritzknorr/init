@@ -12,15 +12,6 @@ esac
 # (history size / control / format are configured together further below)
 shopt -s histappend
 
-# TERM: don't hard-force screen-256color. It is outdated and makes tmux 3.6
-# aggressively send DA1/DA2 terminal-query escapes on attach, whose replies
-# (^[[?61;...c / ^[[>0;...c) leak as visible text at the first prompt over SSH.
-# Only set a sane default when NOT already inside tmux; tmux itself sets the
-# correct tmux-256color inside a session (see .tmux.conf default-terminal).
-if [ -z "$TMUX" ]; then
-    export TERM=xterm-256color
-fi
-
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
@@ -100,12 +91,6 @@ alias c='clear'
 
 # Auto-start tmux, if not called from vscode or in Hyprland
 if command -v tmux &> /dev/null && [ -z "$TMUX" ] && [ "$TERM_PROGRAM" != "vscode" ] && [ -z "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
-    # Drain any pending terminal-query replies (DA1/DA2 ^[[?...c / ^[[>...c)
-    # left in the input buffer by the outer terminal before tmux attaches,
-    # so they don't leak as visible text at the first prompt.
-    if [ -t 0 ]; then
-        while read -r -t 0.1 -n 256 _discard; do :; done
-    fi
     # If a session named "main" exists, attach to it.
     # Otherwise, create a new session named "main".
     (tmux has-session -t main 2>/dev/null && tmux attach -t main) || tmux new-session -s main

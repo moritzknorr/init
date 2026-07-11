@@ -203,6 +203,40 @@ regressions resulted.
   → `v26.5.0` (loads on demand); `bash -n` OK; repo↔live IDENTICAL (no secret block exists
   in either bashrc — the earlier "context7 secret block" note was inaccurate).
 
+## rgb-leak: all workaround config REMOVED (2026-07-11, final)
+### Decision
+After multiple failed attempts, the `rgb:...` colour-query leak on tab/session switch was
+traced to a **tmux 3.6 behaviour that cannot be disabled via config**: on client
+attach/switch tmux unconditionally emits `?2031h` (palette-change notification enable) +
+`?996n` (light/dark colour-scheme query). Windows Terminal replies with `rgb:...` palette
+data, which tmux forwards to the active pane on redraw → visible garbage. Verified via
+attach-capture that `?2031h`/`?996n` are sent regardless of `default-terminal`,
+`terminal-features`, or `focus-events` — it is compiled in, not a config knob. It is
+independent of OpenCode (reproduces with plain bash in every pane).
+
+### What was removed (user asked to strip ALL leak-workaround tweaks)
+- `dotfiles/.tmux.conf`: removed `set -g allow-passthrough off`, `set -s extended-keys off`,
+  and the whole "Escape/passthrough handling" comment block. tmux defaults now apply
+  (both default to `off` anyway).
+- `dotfiles/.bashrc`: removed the `TERM` override block (`if [ -z "$TMUX" ]; export
+  TERM=xterm-256color`) and the pre-attach stdin drain-guard loop
+  (`while read -r -t 0.1 -n 256 _discard`). No TERM is forced anymore; the natural
+  Windows-Terminal-over-SSH value is used, and tmux sets tmux-256color inside sessions.
+- **KEPT (unrelated, still needed):** `set -g set-clipboard on` + `terminal-features
+  ',*:clipboard'` (required by the working OSC-52 copy shim) and the harmless
+  MouseDragEnd copy bindings. `focus-events on`, `escape-time 50`, `xterm*:RGB`, `Ss/Se`
+  overrides were pre-existing (not leak fixes) and left untouched.
+
+### Real fix (not applied — user's choice)
+The clean fix is to **update tmux** (3.6 is the version that introduced the 2031/996
+reporting; a newer build likely stops leaking). Not done here; documented for later.
+
+### Verified
+- No leak-workaround remnants in either file (`grep` clean); `bash -n` OK; repo↔live
+  IDENTICAL; `set-clipboard on` still active for the copy shim.
+- Note: the running tmux server still shows the old values until a full server restart,
+  but they equal the tmux-3.6 defaults anyway.
+
 ## Next Move
 - Commit `ai/install.sh` change (config file is outside repo, not committed).
 - Commit `dotfiles/.tmux.conf` + `dotfiles/.bashrc` + `CONTEXT.md` (tmux + login-leak fixes).
