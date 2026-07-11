@@ -120,10 +120,23 @@ export PATH="$HOME/.local/bin:$PATH"
 # Add opencode to PATH
 export PATH="$HOME/.opencode/bin:$PATH"
 
-# nvm (Node Version Manager)
+# nvm (Node Version Manager) — lazy-loaded to keep shell startup fast.
+# Sourcing nvm.sh eagerly costs ~140ms per shell (it runs `node --version`
+# etc.). Instead we register lightweight stubs; the first call to node/npm/nvm
+# sources the real nvm and then re-runs the command. Interactive shells that
+# never touch node pay nothing.
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+_load_nvm() {
+    unset -f node npm npx nvm _load_nvm 2>/dev/null
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+}
+if [ -s "$NVM_DIR/nvm.sh" ]; then
+    nvm() { _load_nvm; nvm "$@"; }
+    node() { _load_nvm; node "$@"; }
+    npm() { _load_nvm; npm "$@"; }
+    npx() { _load_nvm; npx "$@"; }
+fi
 
 # Disable xdg-open over SSH (for ranger)
 if [ -n "$SSH_CONNECTION" ]; then
@@ -152,14 +165,3 @@ _check_init_updates() {
 }
 _check_init_updates
 unset -f _check_init_updates
-
-# nvm (Node Version Manager)
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-
-# Disable xdg-open over SSH (for ranger)
-if [ -n "$SSH_CONNECTION" ]; then
-    export OpenXDG=false
-    alias xdg-open="false"
-fi

@@ -165,6 +165,44 @@ forwards to Windows. No X server, no root, no extra packages (uses `base64`/`pri
 - **Fallback:** if buffer fills (PREFIX+] works) but Windows clipboard stays empty → cause is
   Windows Terminal-side (OSC 52 disabled there), not tmux/shim.
 
+## Merge-regression fixes (2026-07-11)
+### Common root cause
+A merge from another machine (`8213478 changes` → merge `3bd6d1f`) did NOT overwrite the
+earlier tmux/bash fixes, but appended **duplicate / competing blocks** next to them. Two
+regressions resulted.
+
+### Regression 1 — `rgb:` colour-query leak came back on tab-switch
+- **Symptom:** garbage like `dddd56616/c6c6/0c0cb4b4/0000/9e9e...` at the prompt when
+  switching tmux tabs (same OSC colour-query leak class as before).
+- **Cause:** the merge added a second, competing clipboard block to `.tmux.conf`:
+  `set -as terminal-overrides ',*:Ms=\E]52;%p1%s;%p2%s\7'` — an `Ms` override for **all**
+  terminal types (`*`). Combined with `focus-events on`, the redraw on tab-switch let
+  OSC colour-query replies leak. Also a duplicate `set -s set-clipboard on` (line 6).
+- **Fix:** removed the merged `FIXED CLIPBOARD CONFIG` block and the duplicate set-clipboard.
+  Kept the clean, feature-based clipboard path already in place: `set -g set-clipboard on`
+  + `set -as terminal-features ',*:clipboard'` (NOT an `Ms` override). Kept the harmless
+  `MouseDragEnd1Pane … copy-selection-and-cancel` bindings. Live session reset
+  (`set -gu terminal-overrides/terminal-features`) + reload → `*:Ms` gone, leak-fix intact
+  (`allow-passthrough off`, `extended-keys off`).
+
+### Regression 2 — slow `PREFIX+C` (new tmux window took 1–2 s to give a shell)
+- **Cause:** the same merge duplicated two `.bashrc` blocks — **NVM was sourced twice**
+  (eager `. nvm.sh` at both line 124 and line 157) plus a duplicated xdg-open block.
+  Eager nvm.sh costs ~140 ms (it runs `node --version` etc.); doubled + overhead ≈ 300 ms
+  per interactive shell, on every new pane.
+- **Measured (evidence, not guess):** full `.bashrc` interactive start = ~300 ms; with a
+  fake `$HOME` (no nvm, no `~/init/.git`) = 12 ms; removing the duplicate nvm block alone
+  = −140 ms. `_check_init_updates` was NOT the cause (removing it changed nothing; its
+  `git fetch` is backgrounded and rate-limited, `rev-list` is 2 ms).
+- **Fix (both `dotfiles/.bashrc` + live `~/.bashrc`):**
+  1. Removed the merge-duplicated nvm + xdg-open blocks (each now appears once).
+  2. **Lazy-load NVM:** register stub functions for `node`/`npm`/`npx`/`nvm`; the first
+     call sources real nvm (`_load_nvm`), unsets the stubs, and re-runs the command.
+     Shells that never touch node pay nothing.
+- **Verified:** interactive start **300 ms → 27 ms** (3 runs); `node --version` via the stub
+  → `v26.5.0` (loads on demand); `bash -n` OK; repo↔live IDENTICAL (no secret block exists
+  in either bashrc — the earlier "context7 secret block" note was inaccurate).
+
 ## Next Move
 - Commit `ai/install.sh` change (config file is outside repo, not committed).
 - Commit `dotfiles/.tmux.conf` + `dotfiles/.bashrc` + `CONTEXT.md` (tmux + login-leak fixes).
