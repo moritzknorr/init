@@ -124,6 +124,20 @@ if command -v jq >/dev/null 2>&1; then
     ' "$OPENCODE_CONFIG" > "$tmp" && mv "$tmp" "$OPENCODE_CONFIG"
     echo "OpenCode superpowers plugin registered."
 
+    # Superpowers normally requires a skill whenever there is even a 1% chance
+    # it applies. Raise that threshold to avoid process overhead for routine work.
+    superpowers_patches=0
+    while IFS= read -r -d '' skill; do
+        if grep -q 'even a 1% chance' "$skill"; then
+            sed -i 's/even a 1% chance/even a 10% chance/' "$skill"
+            superpowers_patches=$((superpowers_patches + 1))
+        fi
+    done < <(find "${XDG_CACHE_HOME:-$HOME/.cache}/opencode/packages" \
+        -path '*/node_modules/superpowers/skills/using-superpowers/SKILL.md' -print0 2>/dev/null)
+    if [ "$superpowers_patches" -gt 0 ]; then
+        echo "OpenCode superpowers skill threshold set to 10%."
+    fi
+
     # Register Context7 MCP in OpenCode config (idempotent).
     # type must be "remote" (not "http"); oauth:false disables OpenCode's
     # auto-OAuth discovery so an API-key server starts cleanly. The key is

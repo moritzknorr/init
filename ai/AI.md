@@ -22,3 +22,4 @@
 - **Error Loops:** If a command or fix fails twice consecutively, STOP. Do not loop. Present the failure and ask for guidance.
 - **Dependencies:** Propose before adding. Require explicit user permission before installing new packages or libraries.
 - **Blast Radius:** Limit code changes to the minimum necessary files per iteration. Avoid sweeping, unprompted refactors.
+- **Superpowers usage:** Use only for complex, multi-step, or uncertain problems. Do not use for simple questions, small changes, routine checks, or tasks with an already concrete implementation plan. Use skills and subagents only when their added value clearly outweighs their overhead.
