@@ -14,6 +14,7 @@ FILES=(.bashrc .bash_profile .profile .gitconfig .tmux.conf .vimrc)
 # Requires ~/.local/bin to be on PATH ahead of any real xclip/xsel.
 CUSTOM=(
     "kitty.conf:.config/kitty/kitty.conf"
+    ".ssh/rc:.ssh/rc"
     "bin/osc52-clip:.local/bin/xclip"
     "bin/osc52-clip:.local/bin/xsel"
     "ranger/rc.conf:.config/ranger/rc.conf"

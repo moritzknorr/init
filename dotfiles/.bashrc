@@ -89,6 +89,11 @@ alias l='ls -lhtr' # List all files, human-readable sizes
 # Clear
 alias c='clear'
 
+# Use the stable socket maintained by ~/.ssh/rc across SSH reconnects.
+if [ -S "$HOME/.ssh/ssh_auth_sock" ]; then
+    export SSH_AUTH_SOCK="$HOME/.ssh/ssh_auth_sock"
+fi
+
 # Auto-start tmux, if not called from vscode or in Hyprland
 if command -v tmux &> /dev/null && [ -z "$TMUX" ] && [ "$TERM_PROGRAM" != "vscode" ] && [ -z "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
     # If a session named "main" exists, attach to it.
