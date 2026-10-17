@@ -4,13 +4,36 @@
 Reduce OpenCode context bloat from 154 Voltagent subagents by restricting the Task tool to built-in subagents only, and persist the restriction idempotently via `ai/install.sh`.
 
 ## Architecture
-- **OpenCode config** (`~/.config/opencode/opencode.json`): `permission.task` block with `"*": "deny"` first, then `explore`/`general`/`scout`: `allow` (last-match-wins).
-- **install.sh** (`ai/install.sh`): idempotent jq block inside the existing `if command -v jq` guard, after the Context7 block. Unconditionally writes the `permission.task` block (safe — same values every run).
+- **OpenCode config template** (`ai/opencode.json`): declarative source of truth —
+  `$schema`, `subagent_depth: 1`, `plugin` (superpowers), `mcp` (context7 with
+  `{env:CONTEXT7_API_KEY}` header ref + aventa), `permission.task` block
+  (`"*": "deny"` first, then `explore`/`general`/`scout`: `allow`, last-match-wins).
+- **install.sh** (`ai/install.sh`): `cp ai/opencode.json ~/.config/opencode/opencode.json`
+  (plain copy, clobbers local drift — secrets live in shell rc files, pulled via
+  `{env:VAR}` substitution, never inlined). No more jq patching. Superpowers skill
+  threshold patch (10% vs 1%) is separate — patches the cached SKILL.md, not the config.
+- **Live config** (`~/.config/opencode/opencode.json`): byte-identical to the template.
+- **`subagent_depth: 1`**: top-level config key (NOT under `experimental`; that
+  placement is silently dropped by the schema). Prevents subagents from launching
+  subagents — primary agents launch subagents, those subagents cannot nest further.
+  Reduces context fan-out from nested Task calls. **Requires opencode ≥ 1.18** (1.17
+  lacks the key entirely → config error). Verified loaded in 1.18.18.
 - **Built-in primary agents** (build, plan): switched via Tab, not gated by `task` permission.
 - **Built-in subagents** (explore, general, scout): explicitly allowed → auto-delegation intact.
 - **Hidden system agents** (compaction, title, summary): `mode: primary`, not invoked via Task tool → unaffected.
-- **Voltagent agents** (154 in `~/.config/opencode/agents/voltagent/`): denied from Task tool enum → removed from per-turn context. Manual `@mention` still works (task permissions don't block direct mentions).
+- **Voltagent agents** (~158 in `~/.config/opencode/agents/voltagent/`): denied from Task tool enum → removed from per-turn context. Manual `@mention` still works (task permissions don't block direct mentions).
 - **Local agents** (`lexsecuritas-de.md`, `tech-markenstratege.md`): both `mode: primary` → unaffected.
+
+## Superpowers Threshold (2026-07-29)
+- **Policy source** (`ai/AI.md`): Superpowers, skills, and subagents are for complex,
+  multi-step, or uncertain work only; skip them for simple questions, small changes,
+  routine checks, and concrete implementation plans.
+- **Runtime patch** (`ai/install.sh`): finds OpenCode's installed
+  `using-superpowers/SKILL.md` files under `~/.cache/opencode/packages/` and changes the
+  exact phrase `even a 1% chance` to `even a 10% chance`.
+- **Scope:** OpenCode only. Claude Code's separately installed Superpowers plugin is not
+  patched. Re-run `ai/install.sh` after an OpenCode plugin update, then restart OpenCode.
+- **Verified:** the live OpenCode cache contains `even a 10% chance`.
 
 ## Work State
 ### Completed
@@ -237,6 +260,62 @@ reporting; a newer build likely stops leaking). Not done here; documented for la
 - Note: the running tmux server still shows the old values until a full server restart,
   but they equal the tmux-3.6 defaults anyway.
 
+## Stable forwarded SSH agent socket (2026-10-12)
+### Symptom and root cause
+- After disconnecting and reconnecting with `ssh -A`, old tmux panes retained the previous
+  connection's ephemeral `SSH_AUTH_SOCK`, which no longer existed.
+- Confirmed live: tmux held a different socket path from the current SSH connection.
+
+### Fix
+- Added `dotfiles/.ssh/rc`, installed as `~/.ssh/rc`, to repoint
+  `~/.ssh/ssh_auth_sock` to each new forwarded agent socket on SSH login.
+- `dotfiles/.bashrc` exports that stable path before auto-attaching tmux. This avoids any
+  dependency on `.tmux.conf`; tmux inherits and refreshes the stable path on attach.
+- `dotfiles/install.sh` deploys `.ssh/rc` through its existing `CUSTOM` file list.
+- Live `~/.ssh/rc` and `~/.bashrc` are synchronized. The current symlink and tmux global
+  environment were initialized without restarting or killing the running tmux server.
+
+### Verified
+- Shell syntax, symlink refresh, `.bashrc` export, and throwaway-HOME installation pass.
+- `SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock ssh-add -l` lists the forwarded Windows key.
+- New tmux windows inherit the stable path. Existing panes need `source ~/.bashrc` or one
+  eventual tmux restart; they cannot have their parent environment changed externally.
+
+## tmux drag-select jump fix (2026-10-13)
+### Symptom
+`mouse on` → drag to select → on release the pane snaps back down to the prompt/input line.
+### Root cause
+`MouseDragEnd1Pane` was bound to `send-keys -X copy-selection-and-cancel` (this is also the
+tmux 3.6 default). The `-and-cancel` exits copy-mode on mouse release → view returns to the
+live bottom. Not related to any other config.
+### Fix
+Bound both `copy-mode` and `copy-mode-vi` `MouseDragEnd1Pane` to `copy-selection` (no cancel)
+in `dotfiles/.tmux.conf` + live `~/.tmux.conf` → stays in copy-mode, no jump.
+Trade-off: copy-mode remains active after selecting; press `q`/`Escape` to leave.
+### Verified
+- `copy-selection` accepted (throwaway server test); server reloaded via `source-file`.
+- `list-keys` shows `copy-selection` in both tables; `diff` repo↔live IDENTICAL.
+
+## Google Workspace MCP setup (2026-10-15)
+### Architecture
+- Added all 8 Google Workspace remote MCP servers (`gmail`, `drive`, `docs`, `sheets`,
+  `slides`, `calendar`, `chat`, `people`) to `ai/opencode.json` (and live
+  `~/.config/opencode/opencode.json`), referencing `{env:GOOGLE_WORKSPACE_CLIENT_ID}` and
+  `{env:GOOGLE_WORKSPACE_CLIENT_SECRET}`.
+- Added `client_secret_*.json` to `.gitignore` so OAuth secret files are never committed.
+- Updated `ai/install.sh` to auto-detect `client_secret_*.json` (or prompt), persist
+  `GOOGLE_WORKSPACE_CLIENT_ID` and `GOOGLE_WORKSPACE_CLIENT_SECRET` to `~/.bashrc` and
+  `~/.zshrc`, and perform a 1-step OAuth token exchange seeding all 8 servers in
+  `~/.local/share/opencode/mcp-auth.json` (needed because Google's MCP endpoints return
+  `200 OK` on `initialize`/`tools/list` and only challenge with `401` on `tools/call`).
+
+## OpenCode v2 upgrade (2026-10-15)
+- Upgraded `~/.opencode/bin/opencode` from `1.18.35` to `v2.0.29` via `https://opencode.ai/v2/install`.
+- Migrated `ai/opencode.json` and `~/.config/opencode/opencode.json` to native OpenCode v2 schema (`experimental.subagent_depth`, `plugins`, `mcp.servers` with snake_case `client_id`/`client_secret`, and `permissions` array using `action: "subagent"`).
+- Updated `ai/install.sh` superpowers 10%-threshold patch path from `~/.cache/opencode/packages` to `~/.cache/opencode` so it also covers v2's `~/.cache/opencode/npm` plugin cache.
+- **Clipboard fix for OpenCode v2 (`dotfiles/.tmux.conf` + `~/.tmux.conf`):** OpenCode v2 no longer shells out to `xclip`/`xsel`; its native OpenTUI library talks to X11/Wayland directly and emits OSC 52 on the terminal. When `$TMUX` is set, OpenTUI wraps OSC 52 in a tmux DCS passthrough envelope (`\ePtmux;\e\e]52;c;<b64>\a\e\\`), which tmux silently drops when `allow-passthrough` is `off` (the default). Added `set -g allow-passthrough on` to `dotfiles/.tmux.conf`, `~/.tmux.conf`, and the running tmux server.
+- **MCP OAuth credentials migration (`ai/install.sh` + live DB):** OpenCode v2 auto-migrates `~/.local/share/opencode/auth.json` on first start, but does **not** migrate V1's `~/.local/share/opencode/mcp-auth.json`. Because Google Workspace MCP endpoints return `200 OK` on `initialize`/`tools/list`, v2 showed `connected` even without OAuth tokens and only failed on tool execution (`Method doesn't allow unregistered callers`). Imported all 9 MCP OAuth tokens (`gmail`, `drive`, `docs`, `sheets`, `slides`, `calendar`, `chat`, `people`, `aventa`) into v2's `credential` store via `opencode auth import` (integration ID `mcp_<sha1(name + "\0" + url)[:16]>`) and added the sync step to `ai/install.sh`.
+
 ## Next Move
 - Commit `ai/install.sh` change (config file is outside repo, not committed).
 - Commit `dotfiles/.tmux.conf` + `dotfiles/.bashrc` + `CONTEXT.md` (tmux + login-leak fixes).
@@ -246,4 +325,6 @@ reporting; a newer build likely stops leaking). Not done here; documented for la
 - Test OSC-52 clipboard fix: in a NEW tmux session, select text in OpenCode → confirm
   `PREFIX+]` pastes AND Windows clipboard has it. If it fails, `OSC52_SHIM_DEBUG=1` +
   check `/tmp/osc52-shim.log`.
+- After the next SSH reconnect with `ssh -A`, verify the stable symlink target changes and
+  `ssh-add -l` still works inside an old tmux pane that already uses the stable path.
 - Commit `dotfiles/bin/osc52-clip` + `dotfiles/install.sh` (shim install) + `CONTEXT.md`.

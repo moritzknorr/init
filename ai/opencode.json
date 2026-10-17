@@ -1,0 +1,97 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "experimental": {
+    "subagent_depth": 1
+  },
+  "plugins": [
+    "superpowers@git+https://github.com/obra/superpowers.git",
+    "@dietrichgebert/ponytail"
+  ],
+  "mcp": {
+    "servers": {
+      "context7": {
+        "type": "remote",
+        "url": "https://mcp.context7.com/mcp",
+        "oauth": false,
+        "headers": { "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}" }
+      },
+      "aventa": {
+        "type": "remote",
+        "url": "https://mcp.dev.aventa.io/mcp/"
+      },
+      "gmail": {
+        "type": "remote",
+        "url": "https://gmailmcp.googleapis.com/mcp/v1",
+        "oauth": {
+          "client_id": "{env:GOOGLE_WORKSPACE_CLIENT_ID}",
+          "client_secret": "{env:GOOGLE_WORKSPACE_CLIENT_SECRET}"
+        }
+      },
+      "drive": {
+        "type": "remote",
+        "url": "https://drivemcp.googleapis.com/mcp/v1",
+        "oauth": {
+          "client_id": "{env:GOOGLE_WORKSPACE_CLIENT_ID}",
+          "client_secret": "{env:GOOGLE_WORKSPACE_CLIENT_SECRET}"
+        }
+      },
+      "docs": {
+        "type": "remote",
+        "url": "https://docsmcp.googleapis.com/mcp/v1",
+        "oauth": {
+          "client_id": "{env:GOOGLE_WORKSPACE_CLIENT_ID}",
+          "client_secret": "{env:GOOGLE_WORKSPACE_CLIENT_SECRET}"
+        }
+      },
+      "sheets": {
+        "type": "remote",
+        "url": "https://sheetsmcp.googleapis.com/mcp/v1",
+        "oauth": {
+          "client_id": "{env:GOOGLE_WORKSPACE_CLIENT_ID}",
+          "client_secret": "{env:GOOGLE_WORKSPACE_CLIENT_SECRET}"
+        }
+      },
+      "slides": {
+        "type": "remote",
+        "url": "https://slidesmcp.googleapis.com/mcp/v1",
+        "oauth": {
+          "client_id": "{env:GOOGLE_WORKSPACE_CLIENT_ID}",
+          "client_secret": "{env:GOOGLE_WORKSPACE_CLIENT_SECRET}"
+        }
+      },
+      "calendar": {
+        "type": "remote",
+        "url": "https://calendarmcp.googleapis.com/mcp/v1",
+        "oauth": {
+          "client_id": "{env:GOOGLE_WORKSPACE_CLIENT_ID}",
+          "client_secret": "{env:GOOGLE_WORKSPACE_CLIENT_SECRET}"
+        }
+      },
+      "chat": {
+        "type": "remote",
+        "url": "https://chatmcp.googleapis.com/mcp/v1",
+        "oauth": {
+          "client_id": "{env:GOOGLE_WORKSPACE_CLIENT_ID}",
+          "client_secret": "{env:GOOGLE_WORKSPACE_CLIENT_SECRET}"
+        }
+      },
+      "people": {
+        "type": "remote",
+        "url": "https://people.googleapis.com/mcp/v1",
+        "oauth": {
+          "client_id": "{env:GOOGLE_WORKSPACE_CLIENT_ID}",
+          "client_secret": "{env:GOOGLE_WORKSPACE_CLIENT_SECRET}"
+        }
+      }
+    }
+  },
+  "permissions": [
+    { "action": "subagent", "resource": "*", "effect": "deny" },
+    { "action": "subagent", "resource": "explore", "effect": "allow" },
+    { "action": "subagent", "resource": "general", "effect": "allow" },
+    { "action": "external_directory", "resource": "/home/knorr/assistant/*", "effect": "allow" },
+    { "action": "read", "resource": "/home/knorr/assistant/*", "effect": "allow" },
+    { "action": "external_directory", "resource": "/home/knorr/init/ai/*", "effect": "allow" },
+    { "action": "read", "resource": "/home/knorr/init/ai/*", "effect": "allow" }
+  ]
+}

@@ -77,7 +77,17 @@ in `install.sh` to a tag or commit SHA.
 `install.sh` adds the [superpowers](https://github.com/obra/superpowers) plugin to
 `~/.config/opencode/opencode.json`. The merge is done with `jq` and is idempotent — your
 existing plugins, MCP servers, and API keys are left untouched. If `jq` is missing, the
-script prints the entry to add manually. Restart OpenCode after install to load the plugin.
+script prints the entry to add manually.
+
+The installer also changes Superpowers' mandatory-skill threshold from `1%` to `10%` in
+OpenCode's installed plugin cache:
+
+```
+~/.cache/opencode/packages/.../node_modules/superpowers/skills/using-superpowers/SKILL.md
+```
+
+The patch is idempotent and applies only to OpenCode. Re-run `install.sh` after a plugin
+update, then restart OpenCode to load the patched skill.
 
 ## Claude Code plugins
 

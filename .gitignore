@@ -3,6 +3,7 @@
 *.key
 .env
 .env.*
+client_secret_*.json
 
 # AWS — local config with real subnet/sg IDs, never commit
 scripts/aws_config.sh

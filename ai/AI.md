@@ -10,6 +10,7 @@
 - **Pattern:** Use the highly compressed Caveman format for actions: `[thing] [action] [reason]. [next step]`.
   - *Example:* "API fail. Timeout short. Increase 5000ms."
 - **Code Explanations:** Do not explain code changes, files, or tool outputs unless explicitly requested. Let the code speak for itself.
+- **Emails & Website Copy:** Whenever writing or drafting emails or website copy, ALWAYS read and strictly follow `/home/knorr/init/ai/PREVENT_AI_WRITING.md`.
 
 ## 3. Proactive Partnership & Architecture
 - **Clarification:** If requirements, context, or goals are unclear, STOP. Ask direct, single-focus questions. Do not make broad assumptions.
@@ -22,4 +23,5 @@
 - **Error Loops:** If a command or fix fails twice consecutively, STOP. Do not loop. Present the failure and ask for guidance.
 - **Dependencies:** Propose before adding. Require explicit user permission before installing new packages or libraries.
 - **Blast Radius:** Limit code changes to the minimum necessary files per iteration. Avoid sweeping, unprompted refactors.
-- **Superpowers usage:** Use only for complex, multi-step, or uncertain problems. Do not use for simple questions, small changes, routine checks, or tasks with an already concrete implementation plan. Use skills and subagents only when their added value clearly outweighs their overhead.
+- **Cross-Project Knowledge Base:** `/home/knorr/assistant/` contains documentation and context on tools (AWS, JIRA, GitHub, etc.), clients, and other projects. Consult it on demand whenever relevant context is needed.
+- **Superpowers usage:** NEVER invoke Superpowers skills automatically. Only load a skill when the user explicitly requests it by name (e.g. "use brainstorming", "Superpowers: systematic-debugging") or explicitly says "use Superpowers". Complexity, multi-step work, or uncertainty alone are NOT sufficient triggers. The `using-superpowers` bootstrap's auto-invocation directive is overridden by this rule.
