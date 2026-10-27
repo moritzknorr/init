@@ -29,7 +29,7 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
 fi
 
 # enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
+if command -v dircolors >/dev/null 2>&1; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
     #alias dir='dir --color=auto'
@@ -59,10 +59,12 @@ export environ="$HOME/.ssh/environment"
 # if [ -f "$environ" ]; then
 #   . "$environ" >/dev/null
 # fi
-# if [ -z "$SSH_AUTH_SOCK" ] || ! ps -p "$SSH_AGENT_PID" | grep -q ssh-agent; then (umask 077; ssh-agent > "$environ")
+# if [ -z "$SSH_AUTH_SOCK" ] || ! kill -0 "$SSH_AGENT_PID" 2>/dev/null; then
+#   (umask 077; ssh-agent > "$environ")
 #   . "$environ" >/dev/null
-#   ssh-add $HOME/.ssh/$USER &> /dev/null
-#   ssh-add $HOME/moritzknorr.pk &> /dev/null
+#   ssh-add
+#   [ -n "$USER" ] && [ -f "$HOME/.ssh/$USER" ] && ssh-add "$HOME/.ssh/$USER"
+#   [ -f "$HOME/moritzknorr.pk" ] && ssh-add "$HOME/moritzknorr.pk"
 # fi
 
 shopt -s no_empty_cmd_completion
@@ -74,8 +76,13 @@ export HISTSIZE=32768; # Larger bash history (allow 32³ entries; default is 500
 export HISTFILESIZE=$HISTSIZE;
 export HISTCONTROL=ignoredups; # Remove duplicates from history. I use `git status` a lot.
 export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"; # Make some commands not show up in history
-export LANG="en_GB.UTF-8"; # Language formatting is still important
-export LC_ALL="en_GB.UTF-8"; # byte-wise sorting and force language for those pesky apps
+if [ -n "$TERMUX_VERSION" ]; then
+    export LANG="en_US.UTF-8"
+    export LC_ALL="en_US.UTF-8"
+else
+    export LANG="en_GB.UTF-8" # Language formatting is still important
+    export LC_ALL="en_GB.UTF-8" # byte-wise sorting and force language for those pesky apps
+fi
 
 # Add timestamps to history for better context
 export HISTTIMEFORMAT="%F %T " # Format: YYYY-MM-DD HH:MM:SS
