@@ -55,17 +55,21 @@ export PS1="\t \[$(tput sgr0)\]\[\033[38;5;11m\]\u\[$(tput sgr0)\]\[\033[38;5;15
 
 export environ="$HOME/.ssh/environment"
 
-# Uncomment for machine with private key
-# if [ -f "$environ" ]; then
-#   . "$environ" >/dev/null
-# fi
-# if [ -z "$SSH_AUTH_SOCK" ] || ! kill -0 "$SSH_AGENT_PID" 2>/dev/null; then
-#   (umask 077; ssh-agent > "$environ")
-#   . "$environ" >/dev/null
-#   ssh-add
-#   [ -n "$USER" ] && [ -f "$HOME/.ssh/$USER" ] && ssh-add "$HOME/.ssh/$USER"
-#   [ -f "$HOME/moritzknorr.pk" ] && ssh-add "$HOME/moritzknorr.pk"
-# fi
+# Use the stable socket maintained by ~/.ssh/rc across SSH reconnects,
+# or start a local ssh-agent when no agent is forwarded and a local key exists.
+if [ -n "$SSH_CONNECTION" ] && [ -S "$HOME/.ssh/ssh_auth_sock" ]; then
+    export SSH_AUTH_SOCK="$HOME/.ssh/ssh_auth_sock"
+elif [ -z "$SSH_CONNECTION" ]; then
+    [ -f "$environ" ] && . "$environ" >/dev/null
+    if [ ! -S "$SSH_AUTH_SOCK" ] || ! kill -0 "$SSH_AGENT_PID" 2>/dev/null; then
+        mkdir -p "$HOME/.ssh"
+        (umask 077; ssh-agent > "$environ")
+        . "$environ" >/dev/null
+        ssh-add 2>/dev/null
+        [ -n "$USER" ] && [ -f "$HOME/.ssh/$USER" ] && ssh-add "$HOME/.ssh/$USER"
+        [ -f "$HOME/moritzknorr.pk" ] && ssh-add "$HOME/moritzknorr.pk"
+    fi
+fi
 
 shopt -s no_empty_cmd_completion
 
@@ -95,11 +99,6 @@ alias l='ls -lhtr' # List all files, human-readable sizes
 
 # Clear
 alias c='clear'
-
-# Use the stable socket maintained by ~/.ssh/rc across SSH reconnects.
-if [ -S "$HOME/.ssh/ssh_auth_sock" ]; then
-    export SSH_AUTH_SOCK="$HOME/.ssh/ssh_auth_sock"
-fi
 
 # Auto-start tmux, if not called from vscode or in Hyprland
 if command -v tmux &> /dev/null && [ -z "$TMUX" ] && [ "$TERM_PROGRAM" != "vscode" ] && [ -z "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
@@ -152,7 +151,7 @@ _check_init_updates() {
     last=$(cat "$stamp" 2>/dev/null || echo 0)
     if [ "$(( now - last ))" -gt 3600 ]; then
         echo "$now" > "$stamp"
-        git -C "$repo" fetch --quiet 2>/dev/null &
+        (git -C "$repo" fetch --quiet 2>/dev/null &)
     fi
     local behind
     behind=$(git -C "$repo" rev-list --count HEAD..@{u} 2>/dev/null || echo 0)
